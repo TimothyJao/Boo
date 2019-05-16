@@ -1,4 +1,5 @@
 import Mario from "./mario"
+import {GAME_WIDTH, GAME_HEIGHT} from "./constants"
 
 export default class Game {
     constructor(){
@@ -6,9 +7,9 @@ export default class Game {
     }
 
     draw(ctx){
-        ctx.clearRect(0, 0, 1200, 800);
+        ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
         ctx.fillStyle = "#888888";
-        ctx.fillRect(0, 0, 1200, 800)
+        ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT)
         ctx.drawImage(this.mario.image(), this.mario.pos[0], this.mario.pos[1])
     }
 

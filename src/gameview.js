@@ -1,10 +1,6 @@
 import * as Util from "./util"
 import {KEY, MOVES} from "./constants"
 
-
-
-
-
 export default class GameView {
     constructor(game, ctx) {
         this.game = game;
