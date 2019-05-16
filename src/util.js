@@ -1,0 +1,29 @@
+import {IMAGES} from "./constants"
+
+export const loadImages= (callback) => 
+{
+    let count = 0;
+
+    const directions = ["up", "upright", "right", "downright", "down", "downleft", "left", "upleft"];
+    const spriteCount = 8;
+    let total = 0;
+
+    directions.forEach(direction => {
+        for (let i = 1; i <= spriteCount; i++) {
+            total += 1
+
+            let img = new Image();
+            img.onload = loaded;
+            img.src = `../vendors/mario/mario_${direction}_${i}.png`
+            IMAGES.mario[direction].push(img)
+        }
+
+        function loaded() {
+            count++;
+            if (count >= total) {
+                callback();
+            }
+        }
+    })
+}
+
