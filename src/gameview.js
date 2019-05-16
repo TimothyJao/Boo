@@ -12,8 +12,9 @@ export default class GameView {
         this.mario = this.game.mario;
         this.keyDown = {}
         this.handleKeydown = this.handleKeydown.bind(this);
-        // this.handleKeyup = this.handleKeyup.bind(this);
+        this.handleKeyup = this.handleKeyup.bind(this);
         document.addEventListener("keydown", this.handleKeydown);
+        document.addEventListener("keyup", this.handleKeyup);
     }
 
     start() {
@@ -28,50 +29,46 @@ export default class GameView {
     }
 
     handleKeydown(e){
-        if (e.repeatd) return;
-        switch(e.keyCode){
-            case KEY.S:
-                if(this.mario.direction != "down"){
-                    this.mario.switchDirection("down")
-                }
-                this.mario.changeVelocity(MOVES.DOWN)
-                break;
+        if (e.repeat || this.keyDown[e.keyCode]) return;
+        switch(e.keyCode){           
             case KEY.W:
-                if(this.mario.direction != "up"){
-                    this.mario.switchDirection("up")
-                }
-                this.mario.changeVelocity(MOVES.UP)
+                this.mario.addVelocity(MOVES.UP)
+                this.keyDown[KEY.W] = true;
                 break;
             case KEY.A:
-                if (this.mario.direction != "left") {
-                    this.mario.switchDirection("left")
-                }
-                this.mario.changeVelocity(MOVES.LEFT)
+                this.mario.addVelocity(MOVES.LEFT)
+                this.keyDown[KEY.A] = true;
+                break;
+            case KEY.S:
+                this.mario.addVelocity(MOVES.DOWN)
+                this.keyDown[KEY.S] = true;
                 break;
             case KEY.D:
-                if (this.mario.direction != "right") {
-                    this.mario.switchDirection("right")
-                }
-                this.mario.changeVelocity(MOVES.RIGHT)
+                this.mario.addVelocity(MOVES.RIGHT)
+                this.keyDown[KEY.D] = true;
                 break;
         }
     }
 
-    // handleKeyup(e){
-    //     if (!e) return;
-    //     switch (e.keyCode) {
-    //         case KEY.S:
-    //             if (this.mario.direction != "down") {
-    //                 this.mario.switchDirection("down")
-    //             }
-    //             this.mario.changeVelocity(MOVES.DOWN)
-    //             break;
-    //         case KEY.W:
-    //             if (this.mario.direction != "up") {
-    //                 this.mario.switchDirection("up")
-    //             }
-    //             this.mario.changeVelocity(MOVES.UP)
-    //     }
-    // }
+    handleKeyup(e){
+        switch (e.keyCode) {
+            case KEY.W:
+                this.mario.removeVelocity(MOVES.UP);
+                this.keyDown[KEY.W] = false;
+                break;
+            case KEY.A:
+                this.mario.removeVelocity(MOVES.LEFT);
+                this.keyDown[KEY.A] = false;
+                break;
+            case KEY.S:
+                this.mario.removeVelocity(MOVES.DOWN);
+                this.keyDown[KEY.S] = false;
+                break;
+            case KEY.D:
+                this.mario.removeVelocity(MOVES.RIGHT);
+                this.keyDown[KEY.D] = false;
+                break;
+        }
+    }
 }
 

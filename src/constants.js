@@ -16,12 +16,19 @@ export const KEY = {
     A: 65,
     S: 83,
     D: 68,
-}
+    W: 87,
+    UP: 38,
+    LEFT: 37,
+    DOWN: 40,
+    RIGHT: 39,
+};
+
+export const SPEED = 3;
 
 export const MOVES = {
-    UP: [0, -2],
-    LEFT: [-2, 0],
-    DOWN: [0, 2],
-    RIGHT: [2, 0],
+    UP: [0, -1],
+    LEFT: [-1, 0],
+    DOWN: [0, 1],
+    RIGHT: [1, 0],
     ZERO: [0, 0]
 };
