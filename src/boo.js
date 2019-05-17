@@ -1,10 +1,14 @@
 import MovingObject from "./MovingObject"
-import { IMAGES, SPEED, GAME_WIDTH, GAME_HEIGHT } from "./constants"
+import { IMAGES, SPEED } from "./constants"
+
+Window.image = IMAGES
 
 class Boo extends MovingObject {
-    constructor(pos, vel = [0, 0], direction = "left", imageCount = 0, state="hiding") {
+    constructor(pos, vel = [0, 0], direction = "left", imageCount = 0, state="attacking") {
         super(pos, vel, direction, imageCount);
         this.state = state;
+        this.counter = 0;
+        this.hitbox = {x: 15, y: 11, radius: 8}
     }
 
     image() {
@@ -12,38 +16,24 @@ class Boo extends MovingObject {
         return image
     }
 
-    // changeDirection() {
-    //     if (this.vel[0] === 0 && this.vel[1] === -SPEED) {
-    //         this.direction = "up";
-    //     }
-    //     else if (this.vel[0] === 0 && this.vel[1] === SPEED) {
-    //         this.direction = "down"
-    //     }
-    //     else if (this.vel[0] === SPEED && this.vel[1] === 0) {
-    //         this.direction = "right"
-    //     }
-    //     else if (this.vel[0] === -SPEED && this.vel[1] === 0) {
-    //         this.direction = "left"
-    //     }
-    //     else if (this.vel[0] === SPEED && this.vel[1] === SPEED) {
-    //         this.direction = "downright"
-    //     }
-    //     else if (this.vel[0] === -SPEED && this.vel[1] === SPEED) {
-    //         this.direction = "downleft"
-    //     }
-    //     else if (this.vel[0] === SPEED && this.vel[1] === -SPEED) {
-    //         this.direction = "upright"
-    //     }
-    //     else if (this.vel[0] === -SPEED && this.vel[1] === -SPEED) {
-    //         this.direction = "upleft"
-    //     }
-    //     this.imageCount = 3;
-    // }
+    nextMove(mario) {
+        let dx = mario.pos[0] - this.pos[0];
+        let dy = mario.pos[1] - this.pos[1];
+        let distance = Math.sqrt(dx*dx+dy*dy)
+        this.vel = [SPEED*dx/distance/2, SPEED*dy/distance/2]
+        if (dx > 0) {
+            this.direction = "right";
+        } else{
+            this.direction = "left";
+        }
+    }
 
     move() {
         this.pos = [this.pos[0] + this.vel[0], this.pos[1] + this.vel[1]]
-        if (this.vel[0] != 0 || this.vel[1] != 0) {
-            this.imageCount = (this.imageCount + 1) % 7
+        this.counter++
+        if (this.counter > 4){
+            this.counter = 0;
+            this.imageCount = (this.imageCount + 1) % IMAGES.boo[this.direction][this.state].length;
         }
     }
 
@@ -59,6 +49,28 @@ class Boo extends MovingObject {
         this.changeDirection();
     }
 
+    checkCollision(mario){
+        let marioRange = {
+            lowX: mario.pos[0]+mario.hitbox.x,
+            highX: mario.pos[0] + mario.hitbox.x + mario.hitbox.width,
+            lowY: mario.pos[1] + mario.hitbox.y,
+            highY: mario.pos[1] + mario.hitbox.y + mario.hitbox.height,
+        }
+
+        let booRange = {
+            lowX: this.pos[0] + this.hitbox.x,
+            highX: this.pos[0] + this.hitbox.x + this.hitbox.width,
+            lowY: this.pos[1] + this.hitbox.y,
+            highY: this.pos[1] + this.hitbox.y + this.hitbox.height
+        }
+
+        let distX = Math.abs(booRange.lowX - marioRange.lowX - mario.hitbox.width/2);
+        let distY = Math.abs(booRange.lowY - marioRange.lowY - mario.hitbox.height/2);
+
+        if (distX < (mario.hitbox.width / 2 + this.hitbox.radius) && distY < (mario.hitbox.height / 2 + this.hitbox.radius)){
+            return true
+        }
+    }
 }
 
 export default Boo

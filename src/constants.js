@@ -1,5 +1,8 @@
 export const GAME_WIDTH = 1280;
 export const GAME_HEIGHT = 720; 
+export const SPEED = 2;
+export const DIAG_SPEED = Math.sqrt(2);
+export const SPAWN_RANGE = 50;
 
 export const IMAGES = {
     mario: {
@@ -14,6 +17,11 @@ export const IMAGES = {
     },
     boo: {
         left:{
+            attacking: [],
+            hiding: []
+        },
+        right: {
+            attacking: [],
             hiding: []
         }
     }
@@ -30,8 +38,6 @@ export const KEY = {
     DOWN: 40,
     RIGHT: 39,
 };
-
-export const SPEED = 3;
 
 export const MOVES = {
     UP: [0, -1],

@@ -1,21 +1,34 @@
 import Mario from "./mario"
 import Boo from "./boo"
-import {GAME_WIDTH, GAME_HEIGHT} from "./constants"
+import {GAME_WIDTH, GAME_HEIGHT, SPAWN_RANGE} from "./constants"
 
 export default class Game {
-    constructor(){
-        this.boos = [];
-        this.addBoo();
+    constructor() {
         this.mario = new Mario();
+        this.boos = [];
+        this.maxGhosts = 1;
+        this.addBoo();
+        this.booRandomPosition = this.booRandomPosition.bind(this)
     }
 
     addBoo(){
-        this.boos.push(new Boo({pos: this.booRandomPosition()}));
+        // if (this.boos.length > this.maxGhosts){
+        //     this.boos.shift();
+        // }
+        if (this.boos.length < this.maxGhosts) {
+            this.boos.push(new Boo(this.booRandomPosition()));
+        }
     }
+
     booRandomPosition(){
         let booX = Math.floor(Math.random()*GAME_WIDTH);
         let booY = Math.floor(Math.random() * GAME_HEIGHT);
-        return [booX, booY]
+        let booPos = [booX, booY]
+        if ((this.mario.pos[0] >= (booX - SPAWN_RANGE) && this.mario.pos[0] <= (booX + SPAWN_RANGE)) ||
+            (this.mario.pos[1] >= (booY - SPAWN_RANGE) && this.mario.pos[1] <= (booY + SPAWN_RANGE))){
+            booPos = this.booRandomPosition();
+        }
+        return booPos;
     }
 
     draw(ctx){
@@ -25,7 +38,8 @@ export default class Game {
         ctx.drawImage(this.mario.image(), this.mario.pos[0], this.mario.pos[1])
         for (let i = 0; i < this.boos.length; i++) {
             let boo = this.boos[i];
-            ctx.drawImage(boo.image(), boo.pos[0], boo.pos[1])
+            boo.nextMove(this.mario);
+            ctx.drawImage(boo.image(), boo.pos[0], boo.pos[1]);
         }
     }
 
@@ -35,8 +49,21 @@ export default class Game {
         }
     }
 
+    checkCollisions(){
+        for(let i = 0; i<this.boos.length; i++){
+            if(this.boos[i].checkCollision(this.mario)){
+                debugger
+            }
+        }
+    }
+
+    step(){
+        this.moveObjects();
+        this.checkCollisions();
+    }
+
     allObjects(){
-        arr = Object.assign([], boos)
+        let arr = Object.assign([], this.boos)
         arr.push(this.mario);
         return arr
     }

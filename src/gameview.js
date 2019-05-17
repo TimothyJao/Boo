@@ -9,19 +9,27 @@ export default class GameView {
         this.keyDown = {}
         this.handleKeydown = this.handleKeydown.bind(this);
         this.handleKeyup = this.handleKeyup.bind(this);
+        this.ghostCounter = 0;
+        this.step = this.step.bind(this)
         document.addEventListener("keydown", this.handleKeydown);
         document.addEventListener("keyup", this.handleKeyup);
     }
 
     start() {
-        
         Util.loadImages(()=>{
-            setInterval(() => {
-                this.game.draw(this.ctx);
-                this.game.moveObjects();
-            }, 50)
-        });
-            
+            requestAnimationFrame(this.step)
+        });       
+    }
+
+    step(timestamp){
+        this.ghostCounter++;
+        if(this.ghostCounter > 20){
+            this.ghostCounter = 0;
+            this.game.addBoo();
+        }
+        this.game.draw(this.ctx);
+        this.game.step();
+        requestAnimationFrame(this.step)
     }
 
     handleKeydown(e){
