@@ -5,7 +5,7 @@ class Mario extends MovingObject{
     constructor(pos = [GAME_WIDTH / 2, GAME_HEIGHT / 2 - 20], vel = [0, 0], direction = "down", imageCount = 3){
         super(pos, vel, direction, imageCount);
         this.counter = 0;
-        this.hitbox = {x: 12, y: 8, width: 9, height: 20}
+        this.hitbox = {x: 12, y: 9, width: 7, height: 19}
     }
 
     image(){

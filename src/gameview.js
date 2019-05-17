@@ -6,6 +6,7 @@ export default class GameView {
         this.game = game;
         this.ctx = ctx;
         this.mario = this.game.mario;
+        this.gameOver = this.game.dead;
         this.keyDown = {}
         this.handleKeydown = this.handleKeydown.bind(this);
         this.handleKeyup = this.handleKeyup.bind(this);
@@ -34,23 +35,26 @@ export default class GameView {
 
     handleKeydown(e){
         if (e.repeat || this.keyDown[e.keyCode]) return;
-        switch(e.keyCode){           
-            case KEY.W:
-                this.mario.addVelocity(MOVES.UP)
-                this.keyDown[KEY.W] = true;
-                break;
-            case KEY.A:
-                this.mario.addVelocity(MOVES.LEFT)
-                this.keyDown[KEY.A] = true;
-                break;
-            case KEY.S:
-                this.mario.addVelocity(MOVES.DOWN)
-                this.keyDown[KEY.S] = true;
-                break;
-            case KEY.D:
-                this.mario.addVelocity(MOVES.RIGHT)
-                this.keyDown[KEY.D] = true;
-                break;
+        debugger
+        if (!this.gameOver){
+            switch(e.keyCode){           
+                case KEY.W:
+                    this.mario.addVelocity(MOVES.UP)
+                    this.keyDown[KEY.W] = true;
+                    break;
+                case KEY.A:
+                    this.mario.addVelocity(MOVES.LEFT)
+                    this.keyDown[KEY.A] = true;
+                    break;
+                case KEY.S:
+                    this.mario.addVelocity(MOVES.DOWN)
+                    this.keyDown[KEY.S] = true;
+                    break;
+                case KEY.D:
+                    this.mario.addVelocity(MOVES.RIGHT)
+                    this.keyDown[KEY.D] = true;
+                    break;
+            }
         }
     }
 

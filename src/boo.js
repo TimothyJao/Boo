@@ -16,15 +16,19 @@ class Boo extends MovingObject {
         return image
     }
 
-    nextMove(mario) {
-        let dx = mario.pos[0] - this.pos[0];
-        let dy = mario.pos[1] - this.pos[1];
-        let distance = Math.sqrt(dx*dx+dy*dy)
-        this.vel = [SPEED*dx/distance/2, SPEED*dy/distance/2]
-        if (dx > 0) {
-            this.direction = "right";
+    nextMove(mario, gameContinue) {
+        if (gameContinue){
+            let dx = mario.pos[0] - this.pos[0];
+            let dy = mario.pos[1] - this.pos[1];
+            let distance = Math.sqrt(dx*dx+dy*dy)
+            this.vel = [SPEED*dx/distance/2, SPEED*dy/distance/2]
+            if (dx > 0) {
+                this.direction = "right";
+            } else{
+                this.direction = "left";
+            }
         } else{
-            this.direction = "left";
+            this.vel = [0,0]
         }
     }
 

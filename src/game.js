@@ -6,16 +6,19 @@ export default class Game {
     constructor() {
         this.mario = new Mario();
         this.boos = [];
-        this.maxGhosts = 1;
+        this.maxGhosts = 20;
         this.addBoo();
         this.booRandomPosition = this.booRandomPosition.bind(this)
+        this.dead = false;
+        this.checkCollisions = this.checkCollisions.bind(this)
     }
 
     addBoo(){
-        // if (this.boos.length > this.maxGhosts){
-        //     this.boos.shift();
-        // }
-        if (this.boos.length < this.maxGhosts) {
+        if (!this.dead){
+            if (this.boos.length > this.maxGhosts){
+                this.boos.shift();
+            }
+
             this.boos.push(new Boo(this.booRandomPosition()));
         }
     }
@@ -38,9 +41,19 @@ export default class Game {
         ctx.drawImage(this.mario.image(), this.mario.pos[0], this.mario.pos[1])
         for (let i = 0; i < this.boos.length; i++) {
             let boo = this.boos[i];
-            boo.nextMove(this.mario);
+            boo.nextMove(this.mario, !this.dead);
             ctx.drawImage(boo.image(), boo.pos[0], boo.pos[1]);
-        }
+        } 
+        this.drawDarkness(ctx)
+    }
+
+    drawDarkness(ctx){
+        ctx.beginPath();
+        ctx.fillStyle = "black";
+        ctx.arc(this.mario.pos[0] + 15, this.mario.pos[1] + 20, 100, 0, 2 * Math.PI);
+        ctx.rect(GAME_WIDTH, 0, -GAME_WIDTH, GAME_HEIGHT);
+        ctx.fill();
+        ctx.closePath();
     }
 
     moveObjects(){
@@ -52,7 +65,7 @@ export default class Game {
     checkCollisions(){
         for(let i = 0; i<this.boos.length; i++){
             if(this.boos[i].checkCollision(this.mario)){
-                debugger
+                this.gameOver()
             }
         }
     }
@@ -66,5 +79,9 @@ export default class Game {
         let arr = Object.assign([], this.boos)
         arr.push(this.mario);
         return arr
+    }
+
+    gameOver(){
+        this.dead = true;
     }
 }
