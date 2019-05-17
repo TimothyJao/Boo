@@ -11,6 +11,11 @@ export const IMAGES = {
         downleft: [],
         left: [],
         upleft: []
+    },
+    boo: {
+        left:{
+            hiding: []
+        }
     }
 }
 

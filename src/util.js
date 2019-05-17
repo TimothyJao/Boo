@@ -18,12 +18,21 @@ export const loadImages= (callback) =>
             IMAGES.mario[direction].push(img)
         }
 
-        function loaded() {
-            count++;
-            if (count >= total) {
-                callback();
-            }
+        for (let i = 1; i <= 7; i++){
+            total += 1;
+            let img = new Image();
+            img.onload = loaded;
+            img.src = `../vendors/boo/boo_left_hiding_${i}.png`
+            IMAGES.boo.left.hiding.push(img)
         }
+
     })
+
+    function loaded() {
+        count++;
+        if (count >= total) {
+            callback();
+        }
+    }
 }
 

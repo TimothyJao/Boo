@@ -2,11 +2,8 @@ import MovingObject from "./MovingObject"
 import {IMAGES, SPEED, GAME_WIDTH, GAME_HEIGHT} from "./constants"
 
 class Mario extends MovingObject{
-    constructor(pos = [GAME_WIDTH/2, GAME_HEIGHT/2 ], vel=[0, 0]){
-        super(pos);
-        this.imageCount = 3;    
-        this.direction = "down";
-        this.vel = vel; 
+    constructor(pos = [GAME_WIDTH / 2, GAME_HEIGHT / 2 - 20], vel = [0, 0], direction = "down", imageCount = 3){
+        super(pos, vel, direction, imageCount);
     }
 
     image(){
@@ -46,9 +43,7 @@ class Mario extends MovingObject{
         this.pos = [this.pos[0] + this.vel[0], this.pos[1] + this.vel[1]]
         if (this.vel[0] != 0 || this.vel[1] != 0){
             this.imageCount = (this.imageCount + 1) % 8
-        }
-        console.log(this.pos)
-        
+        }        
     }
 
     addVelocity(vel){
