@@ -1,6 +1,6 @@
 export const GAME_WIDTH = 1280;
 export const GAME_HEIGHT = 720; 
-export const SPEED = 2;
+export const SPEED = 1;
 export const DIAG_SPEED = Math.sqrt(2);
 export const SPAWN_RANGE = 50;
 
@@ -24,7 +24,8 @@ export const IMAGES = {
             attacking: [],
             hiding: []
         }
-    }
+    },
+    game_over: [],
 }
 
 export const KEY = {

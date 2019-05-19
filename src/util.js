@@ -48,8 +48,13 @@ export const loadImages= (callback) =>
         let img = new Image();
         img.onload = loaded;
         img.src = `../vendors/boo/boo_right_attacking_${i}.png`
-        IMAGES.boo.right.attacking.push(img)
+        IMAGES.boo.right.attacking.push(img);
     }
+
+    let img = new Image();
+    img.onload = loaded;
+    img.src = '../vendors/gameover/browser.png';
+    IMAGES.game_over.push(img)
 
     function loaded() {
         count++;

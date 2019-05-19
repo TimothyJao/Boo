@@ -6,7 +6,6 @@ export default class GameView {
         this.game = game;
         this.ctx = ctx;
         this.mario = this.game.mario;
-        this.gameOver = this.game.dead;
         this.keyDown = {}
         this.handleKeydown = this.handleKeydown.bind(this);
         this.handleKeyup = this.handleKeyup.bind(this);
@@ -35,8 +34,7 @@ export default class GameView {
 
     handleKeydown(e){
         if (e.repeat || this.keyDown[e.keyCode]) return;
-        debugger
-        if (!this.gameOver){
+        if (!this.game.dead){
             switch(e.keyCode){           
                 case KEY.W:
                     this.mario.addVelocity(MOVES.UP)
@@ -59,23 +57,25 @@ export default class GameView {
     }
 
     handleKeyup(e){
-        switch (e.keyCode) {
-            case KEY.W:
-                this.mario.removeVelocity(MOVES.UP);
-                this.keyDown[KEY.W] = false;
-                break;
-            case KEY.A:
-                this.mario.removeVelocity(MOVES.LEFT);
-                this.keyDown[KEY.A] = false;
-                break;
-            case KEY.S:
-                this.mario.removeVelocity(MOVES.DOWN);
-                this.keyDown[KEY.S] = false;
-                break;
-            case KEY.D:
-                this.mario.removeVelocity(MOVES.RIGHT);
-                this.keyDown[KEY.D] = false;
-                break;
+        if (!this.game.dead) {
+            switch (e.keyCode) {
+                case KEY.W:
+                    this.mario.removeVelocity(MOVES.UP);
+                    this.keyDown[KEY.W] = false;
+                    break;
+                case KEY.A:
+                    this.mario.removeVelocity(MOVES.LEFT);
+                    this.keyDown[KEY.A] = false;
+                    break;
+                case KEY.S:
+                    this.mario.removeVelocity(MOVES.DOWN);
+                    this.keyDown[KEY.S] = false;
+                    break;
+                case KEY.D:
+                    this.mario.removeVelocity(MOVES.RIGHT);
+                    this.keyDown[KEY.D] = false;
+                    break;
+            }
         }
     }
 }

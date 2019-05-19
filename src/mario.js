@@ -42,18 +42,41 @@ class Mario extends MovingObject{
     }
 
     move(){
+        if (!this.canMove()) return;
         if (Math.abs(this.vel[0]) === Math.abs(this.vel[1])){
             this.pos = [this.pos[0] + this.vel[0] / DIAG_SPEED, this.pos[1] + this.vel[1] / DIAG_SPEED]
         } else {
             this.pos = [this.pos[0] + this.vel[0], this.pos[1] + this.vel[1]]
         }
         this.counter++
-        if (this.counter > 4) {
+        if (this.counter > 8) {
             this.counter = 0
             if (this.vel[0] != 0 || this.vel[1] != 0){
                 this.imageCount = (this.imageCount + 1) % 8
             }   
         }     
+    }
+
+    canMove(){
+        if (this.pos[0] > GAME_WIDTH-22 && this.vel[0] > 0){
+            return false;
+        }
+
+        else if (this.pos[0] < 0 && this.vel[0] < 0){
+            return false
+        }
+
+        else if (this.pos[1] > GAME_HEIGHT - 38 && this.vel[1] > 0){
+            return false;
+        }
+
+        else if (this.pos[1] < 0 && this.vel[1] < 0){
+            return false;
+        } 
+
+        else{
+            return true;
+        }
     }
 
     addVelocity(vel){

@@ -18,24 +18,36 @@ class Boo extends MovingObject {
 
     nextMove(mario, gameContinue) {
         if (gameContinue){
-            let dx = mario.pos[0] - this.pos[0];
-            let dy = mario.pos[1] - this.pos[1];
-            let distance = Math.sqrt(dx*dx+dy*dy)
-            this.vel = [SPEED*dx/distance/2, SPEED*dy/distance/2]
-            if (dx > 0) {
-                this.direction = "right";
-            } else{
-                this.direction = "left";
+            if (this.state === "attacking"){
+                let dx = mario.pos[0] - this.pos[0];
+                let dy = mario.pos[1] - this.pos[1];
+                let distance = Math.sqrt(dx*dx+dy*dy)
+                this.vel = [SPEED*dx/distance/2, SPEED*dy/distance/2]
+                if (dx > 0) {
+                    this.direction = "right";
+                } else{
+                    this.direction = "left";
+                }
             }
-        } else{
+            else if (this.state === "hiding") {
+                this.vel = [0,0];
+            }
+        }
+            
+            
+        else{
             this.vel = [0,0]
         }
+    }
+
+    hide(){
+        this.state = "hiding"
     }
 
     move() {
         this.pos = [this.pos[0] + this.vel[0], this.pos[1] + this.vel[1]]
         this.counter++
-        if (this.counter > 4){
+        if (this.counter > 8){
             this.counter = 0;
             this.imageCount = (this.imageCount + 1) % IMAGES.boo[this.direction][this.state].length;
         }
@@ -75,6 +87,7 @@ class Boo extends MovingObject {
             return true
         }
     }
+    
 }
 
 export default Boo
