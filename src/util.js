@@ -19,7 +19,7 @@ export const loadImages= (callback) =>
         }
     })
 
-    for (let i = 1; i <= 7; i++) {
+    for (let i = 1; i <= 5; i++) {
         total += 1;
         let img = new Image();
         img.onload = loaded;
@@ -27,7 +27,7 @@ export const loadImages= (callback) =>
         IMAGES.boo.left.hiding.push(img)
     }
 
-    for (let i = 1; i <= 7; i++) {
+    for (let i = 1; i <= 5; i++) {
         total += 1;
         let img = new Image();
         img.onload = loaded;

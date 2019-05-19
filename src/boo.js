@@ -10,11 +10,13 @@ class Boo extends MovingObject {
         this.counter = 0;
         this.hidingCounter = 0;
         this.hitbox = {x: 15, y: 11, radius: 8}
+        this.currentImage = "";
+        this.image = this.image.bind(this)
     }
 
     image() {
-        let image = IMAGES.boo[this.direction][this.state][this.imageCount]
-        return image
+        this.currentImage = IMAGES.boo[this.direction][this.state][this.imageCount]
+        return this.currentImage
     }
 
     nextMove(mario, gameContinue) {
@@ -43,14 +45,13 @@ class Boo extends MovingObject {
 
     hide() {
         this.state = "hiding"
-        this.imageCount = 0;
         this.hidingCounter = 0;
     }
     
 
     incrementHiding(){
         this.hidingCounter++;
-        if (this.hidingCounter >= 50){
+        if (this.hidingCounter >= 300){
             this.state = "attacking";
             this.hidingCounter = 0;
         }
@@ -59,7 +60,7 @@ class Boo extends MovingObject {
     move() {
         this.pos = [this.pos[0] + this.vel[0], this.pos[1] + this.vel[1]]
         this.counter++
-        if (this.counter > 8){
+        if (this.counter > 12){
             this.counter = 0;
             this.imageCount = (this.imageCount + 1) % IMAGES.boo[this.direction][this.state].length;
         }

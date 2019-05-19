@@ -38,6 +38,7 @@ export const KEY = {
     LEFT: 37,
     DOWN: 40,
     RIGHT: 39,
+    SPACE: 32,
 };
 
 export const MOVES = {

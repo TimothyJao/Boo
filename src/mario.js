@@ -6,6 +6,7 @@ class Mario extends MovingObject{
         super(pos, vel, direction, imageCount);
         this.counter = 0;
         this.hitbox = {x: 12, y: 9, width: 7, height: 19}
+        this.flashLightOn = false
     }
 
     image(){
@@ -89,6 +90,14 @@ class Mario extends MovingObject{
         vel = [vel[0] * SPEED, vel[1] * SPEED];
         this.vel = [this.vel[0] - vel[0], this.vel[1] - vel[1]];
         this.changeDirection();
+    }
+
+    flashLight(){
+        if (this.flashLightOn){
+            this.flashLightOn = false
+        }else{
+            this.flashLightOn = true
+        }
     }
 
 }

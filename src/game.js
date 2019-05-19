@@ -6,7 +6,7 @@ export default class Game {
     constructor() {
         this.mario = new Mario();
         this.boos = [];
-        this.maxGhosts = 1;
+        this.maxGhosts = 20;
         this.addBoo();
         this.darknessCounter = 0;
         this.booRandomPosition = this.booRandomPosition.bind(this)
@@ -16,21 +16,22 @@ export default class Game {
         this.flashlight = this.flashlight.bind(this)
         this.lightRange = {};
         this.browserScaler = 0;
+        this.score = 0;
     }
 
     addBoo(){
-        // if (!this.dead){
-        //     if (this.boos.length > this.maxGhosts){
-        //         let randGhost = Math.floor(Math.random()*this.maxGhosts)
-        //         this.boos.splice(randGhost, 1)
-        //     }
-        //     this.boos.push(new Boo(this.booRandomPosition()));
-        // }
-
-        //testing limited boos with no replacements
-        if (this.boos.length < this.maxGhosts) {
+        if (!this.dead){
+            if (this.boos.length > this.maxGhosts){
+                let randGhost = Math.floor(Math.random()*this.maxGhosts)
+                this.boos.splice(randGhost, 1)
+            }
             this.boos.push(new Boo(this.booRandomPosition()));
         }
+
+        //testing limited boos with no replacements
+        // if (this.boos.length < this.maxGhosts) {
+        //     this.boos.push(new Boo(this.booRandomPosition()));
+        // }
 
     }
 
@@ -53,8 +54,6 @@ export default class Game {
         for (let i = 0; i < this.boos.length; i++) {
             let boo = this.boos[i];
             boo.nextMove(this.mario, !this.dead);
-            console.log(boo.imageCount)
-            console.log(boo.image())
             ctx.drawImage(boo.image(), boo.pos[0], boo.pos[1]);
             
         } 
@@ -75,7 +74,7 @@ export default class Game {
         ctx.beginPath();
         ctx.arc(marioX, marioY, 100, 0, 2 * Math.PI, true);
         ctx.moveTo(marioX, marioY)
-        this.flashlight(ctx)
+        if(this.mario.flashLightOn) this.flashlight(ctx)
         ctx.rect(GAME_WIDTH, GAME_HEIGHT, -GAME_WIDTH, -GAME_HEIGHT);
         ctx.fillStyle = "black";
         ctx.fill();
@@ -86,7 +85,11 @@ export default class Game {
         grd.addColorStop(1, "black");
         ctx.fillStyle = grd
         ctx.moveTo(marioX, marioY)
-        this.flashlight2(ctx);
+        if (this.mario.flashLightOn) {
+            this.flashlight2(ctx);
+        } else{
+            ctx.arc(marioX, marioY, 100, 0, 2 * Math.PI, );
+        }
         ctx.fill();
         ctx.closePath();
     }
@@ -241,6 +244,7 @@ export default class Game {
     }
 
     checkInLight(point){
+        if (!this.mario.flashLightOn) return;
         let point1 = this.lightRange.point1
         let point2 = this.lightRange.point2
         let point3 = this.lightRange.point3
@@ -289,7 +293,8 @@ export default class Game {
     }
 
     gameOver(){
-        this.mario.vel=[0,0]
+        this.mario.vel = [0, 0]
+        if (!this.dead) console.log(this.score)
         this.dead = true;
     }
 }

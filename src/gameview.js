@@ -29,6 +29,7 @@ export default class GameView {
         }
         this.game.draw(this.ctx);
         this.game.step();
+        if (!this.game.dead) this.game.score++;
         requestAnimationFrame(this.step)
     }
 
@@ -52,6 +53,10 @@ export default class GameView {
                     this.mario.addVelocity(MOVES.RIGHT)
                     this.keyDown[KEY.D] = true;
                     break;
+                case KEY.SPACE:
+                    this.mario.flashLight();
+                    this.keyDown[KEY.SPACE] = true;
+                    break;
             }
         }
     }
@@ -74,6 +79,10 @@ export default class GameView {
                 case KEY.D:
                     this.mario.removeVelocity(MOVES.RIGHT);
                     this.keyDown[KEY.D] = false;
+                    break;
+                case KEY.SPACE:
+                    this.mario.flashLight();
+                    this.keyDown[KEY.SPACE] = false;
                     break;
             }
         }
