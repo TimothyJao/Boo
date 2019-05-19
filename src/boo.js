@@ -8,6 +8,7 @@ class Boo extends MovingObject {
         super(pos, vel, direction, imageCount);
         this.state = state;
         this.counter = 0;
+        this.hidingCounter = 0;
         this.hitbox = {x: 15, y: 11, radius: 8}
     }
 
@@ -40,8 +41,19 @@ class Boo extends MovingObject {
         }
     }
 
-    hide(){
+    hide() {
         this.state = "hiding"
+        this.imageCount = 0;
+        this.hidingCounter = 0;
+    }
+    
+
+    incrementHiding(){
+        this.hidingCounter++;
+        if (this.hidingCounter >= 50){
+            this.state = "attacking";
+            this.hidingCounter = 0;
+        }
     }
 
     move() {

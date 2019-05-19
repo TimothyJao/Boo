@@ -6,7 +6,7 @@ export default class Game {
     constructor() {
         this.mario = new Mario();
         this.boos = [];
-        this.maxGhosts = 20;
+        this.maxGhosts = 1;
         this.addBoo();
         this.darknessCounter = 0;
         this.booRandomPosition = this.booRandomPosition.bind(this)
@@ -19,13 +19,19 @@ export default class Game {
     }
 
     addBoo(){
-        if (!this.dead){
-            if (this.boos.length > this.maxGhosts){
-                let randGhost = Math.floor(Math.random()*this.maxGhosts)
-                this.boos.splice(randGhost, 1)
-            }
+        // if (!this.dead){
+        //     if (this.boos.length > this.maxGhosts){
+        //         let randGhost = Math.floor(Math.random()*this.maxGhosts)
+        //         this.boos.splice(randGhost, 1)
+        //     }
+        //     this.boos.push(new Boo(this.booRandomPosition()));
+        // }
+
+        //testing limited boos with no replacements
+        if (this.boos.length < this.maxGhosts) {
             this.boos.push(new Boo(this.booRandomPosition()));
         }
+
     }
 
     booRandomPosition(){
@@ -47,7 +53,10 @@ export default class Game {
         for (let i = 0; i < this.boos.length; i++) {
             let boo = this.boos[i];
             boo.nextMove(this.mario, !this.dead);
+            console.log(boo.imageCount)
+            console.log(boo.image())
             ctx.drawImage(boo.image(), boo.pos[0], boo.pos[1]);
+            
         } 
         if (!this.dead){
             this.drawDarkness(ctx)
@@ -260,9 +269,11 @@ export default class Game {
             if(this.boos[i].checkCollision(this.mario)){
                 this.gameOver()
             }
-            if (this.checkInLight(this.boos[i].pos)){
+            else if (this.checkInLight(this.boos[i].pos)) {
                 this.boos[i].hide();
-            }
+            } else if(this.boos[i].state === "hiding"){
+                this.boos[i].incrementHiding();
+            } 
         }
     }
 
