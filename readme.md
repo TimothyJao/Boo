@@ -80,4 +80,4 @@ Object logic: This will be contained in the mario, ghosts and moving objects fil
 - [X] Make ghosts stunned by flashlight
 
 #### Day 5: 
-- [] Add welcome page and game over page
+- [ ] Add welcome page and game over page
