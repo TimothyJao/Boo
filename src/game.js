@@ -387,7 +387,6 @@ export default class Game {
 
     gameOver(){
         this.mario.vel = [0, 0]
-        if (!this.dead) console.log(this.score)
         this.dead = true;
     }
 }

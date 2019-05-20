@@ -1,0 +1,27 @@
+{
+  "name": "boo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "deploy": "gh-pages -d build",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TimothyJao/Boo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TimothyJao/Boo/issues"
+  },
+  "homepage": "https://github.com/TimothyJao/Boo",
+  "keywords": [],
+  "description": "",
+  "dependencies": {
+    "webpack": "^4.31.0"
+  },
+  "devDependencies": {
+    "webpack-cli": "^3.3.2"
+  }
+}
