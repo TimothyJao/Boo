@@ -28,7 +28,7 @@ export default class Game {
             this.boos.push(new Boo(this.booRandomPosition()));
         }
 
-        //testing limited boos with no replacements
+        // testing limited boos with no replacementsw
         // if (this.boos.length < this.maxGhosts) {
         //     this.boos.push(new Boo(this.booRandomPosition()));
         // }
@@ -63,7 +63,7 @@ export default class Game {
         else if(this.dead && this.darknessCounter < 50){
             this.trueDarkness(ctx)
         }
-        else if(this.dead && this.darknessCounter >= 50 && this.browserScaler < 3){
+        else if(this.darknessCounter >= 50 && this.browserScaler < 3){
             this.gameOverScreen(ctx)
         }
     }
@@ -92,6 +92,16 @@ export default class Game {
         }
         ctx.fill();
         ctx.closePath();
+        ctx.beginPath()
+        if(this.mario.flashLightOn){
+            let grd = ctx.createLinearGradient(marioX, marioY, 150, 0);
+            grd.addColorStop(0, "rgba(255, 255, 220, 0.2)");
+            grd.addColorStop(1, "rgba(0, 0, 0, 0.2)");
+            ctx.moveTo(marioX, marioY)
+            this.flashligh3(ctx);
+            ctx.fillStyle = "rgba(255, 255, 200, 0.4)";
+            ctx.fill()
+        }
     }
 
     trueDarkness(ctx){
@@ -243,7 +253,90 @@ export default class Game {
         }
     }
 
+    flashligh3(ctx){
+        let marioX = this.mario.pos[0] + 14;
+        let marioY = this.mario.pos[1] + 20;
+        let mario1X;
+        let mario1Y;
+        let mario2X;
+        let mario2Y;
+        if (this.mario.direction === "down") {
+            mario1X = marioX - Math.tan(22.5 * Math.PI / 180) * 200;
+            mario1Y = marioY + 200
+            mario2X = marioX + Math.tan(22.5 * Math.PI / 180) * 200
+            mario2Y = marioY + 200
+            ctx.lineTo(mario1X, mario1Y)
+            ctx.lineTo(mario2X, mario2Y)
+            ctx.moveTo(marioX, marioY)
+        }
+        else if (this.mario.direction === "downright") {
+            mario1X = marioX + Math.tan(22.5 * Math.PI / 180) * 200;
+            mario1Y = marioY + 200
+            mario2X = marioX + 200
+            mario2Y = marioY + Math.tan(22.5 * Math.PI / 180) * 200
+            ctx.lineTo(mario1X, mario1Y)
+            ctx.lineTo(mario2X, mario2Y)
+            ctx.moveTo(marioX, marioY)
+        }
+        else if (this.mario.direction === "right") {
+            mario1X = marioX + 200;
+            mario1Y = marioY + Math.tan(22.5 * Math.PI / 180) * 200;
+            mario2X = marioX + 200
+            mario2Y = marioY - Math.tan(22.5 * Math.PI / 180) * 200
+            ctx.lineTo(mario1X, mario1Y)
+            ctx.lineTo(mario2X, mario2Y)
+            ctx.moveTo(marioX, marioY)
+        }
+        else if (this.mario.direction === "upright") {
+            mario1X = marioX + 200;
+            mario1Y = marioY - Math.tan(22.5 * Math.PI / 180) * 200;
+            mario2X = marioX + Math.tan(22.5 * Math.PI / 180) * 200
+            mario2Y = marioY - 200
+            ctx.lineTo(mario1X, mario1Y)
+            ctx.lineTo(mario2X, mario2Y)
+            ctx.moveTo(marioX, marioY)
+        }
+        else if (this.mario.direction === "up") {
+            mario1X = marioX + Math.tan(22.5 * Math.PI / 180) * 200;
+            mario1Y = marioY - 200
+            mario2X = marioX - Math.tan(22.5 * Math.PI / 180) * 200
+            mario2Y = marioY - 200
+            ctx.lineTo(mario1X, mario1Y)
+            ctx.lineTo(mario2X, mario2Y)
+            ctx.moveTo(marioX, marioY)
+        }
+        else if (this.mario.direction === "upleft") {
+            mario1X = marioX - Math.tan(22.5 * Math.PI / 180) * 200;
+            mario1Y = marioY - 200
+            mario2X = marioX - 200
+            mario2Y = marioY - Math.tan(22.5 * Math.PI / 180) * 200
+            ctx.lineTo(mario1X, mario1Y)
+            ctx.lineTo(mario2X, mario2Y)
+            ctx.moveTo(marioX, marioY)
+        }
+        else if (this.mario.direction === "left") {
+            mario1X = marioX - 200;
+            mario1Y = marioY - Math.tan(22.5 * Math.PI / 180) * 200
+            mario2X = marioX - 200
+            mario2Y = marioY + Math.tan(22.5 * Math.PI / 180) * 200
+            ctx.lineTo(mario1X, mario1Y)
+            ctx.lineTo(mario2X, mario2Y)
+            ctx.moveTo(marioX, marioY)
+        }
+        else if (this.mario.direction === "downleft") {
+            mario1X = marioX - 200
+            mario1Y = marioY + Math.tan(22.5 * Math.PI / 180) * 200
+            mario2X = marioX - Math.tan(22.5 * Math.PI / 180) * 200
+            mario2Y = marioY + 200
+            ctx.lineTo(mario1X, mario1Y)
+            ctx.lineTo(mario2X, mario2Y)
+            ctx.moveTo(marioX, marioY)
+        }
+    }
+
     checkInLight(point){
+        point = [point[0]+10, point[1]+10]
+        
         if (!this.mario.flashLightOn) return;
         let point1 = this.lightRange.point1
         let point2 = this.lightRange.point2
