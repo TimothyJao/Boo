@@ -10,6 +10,7 @@ export default class GameView {
         this.handleKeydown = this.handleKeydown.bind(this);
         this.handleKeyup = this.handleKeyup.bind(this);
         this.ghostCounter = 0;
+        this.flashlightCounter = 0;
         this.step = this.step.bind(this)
         document.addEventListener("keydown", this.handleKeydown);
         document.addEventListener("keyup", this.handleKeyup);
@@ -29,6 +30,12 @@ export default class GameView {
         }
         this.game.draw(this.ctx);
         this.game.step();
+        if (this.mario.flashLightOn){
+                this.mario.discharge();
+            
+        } else{
+            this.mario.recharge();     
+        }
         if (!this.game.dead) this.game.score++;
         requestAnimationFrame(this.step)
     }

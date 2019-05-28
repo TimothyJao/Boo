@@ -6,7 +6,7 @@ export default class Game {
     constructor() {
         this.mario = new Mario();
         this.boos = [];
-        this.maxGhosts = 20;
+        this.maxGhosts = 1;
         this.addBoo();
         this.darknessCounter = 0;
         this.booRandomPosition = this.booRandomPosition.bind(this)
@@ -20,19 +20,18 @@ export default class Game {
     }
 
     addBoo(){
-        if (!this.dead){
-            if (this.boos.length > this.maxGhosts){
-                let randGhost = Math.floor(Math.random()*this.maxGhosts)
-                this.boos.splice(randGhost, 1)
-            }
-            this.boos.push(new Boo(this.booRandomPosition()));
-        }
-
-        // testing limited boos with no replacementsw
-        // if (this.boos.length < this.maxGhosts) {
+        // if (!this.dead){
+        //     if (this.boos.length > this.maxGhosts){
+        //         let randGhost = Math.floor(Math.random()*this.maxGhosts)
+        //         this.boos.splice(randGhost, 1)
+        //     }
         //     this.boos.push(new Boo(this.booRandomPosition()));
         // }
 
+        // testing limited boos with no replacementsw
+        if (this.boos.length < this.maxGhosts) {
+            this.boos.push(new Boo(this.booRandomPosition()));
+        }
     }
 
     booRandomPosition(){

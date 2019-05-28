@@ -7,6 +7,8 @@ class Mario extends MovingObject{
         this.counter = 0;
         this.hitbox = {x: 12, y: 9, width: 7, height: 19}
         this.flashLightOn = false
+        this.flashLightPower = 100;
+        this.mustRecharge = false;
     }
 
     image(){
@@ -92,10 +94,30 @@ class Mario extends MovingObject{
         this.changeDirection();
     }
 
+    discharge(){
+        if(this.flashLightPower >= 0 && !this.mustRecharge) {
+            this.flashLightPower -= 1;
+            console.log(this.flashLightPower)
+        } else{
+            this.mustRecharge = true;
+            this.flashLightOn = false;
+        }
+    }
+
+    recharge(){
+        if(this.flashLightPower < 100){
+            this.flashLightPower += .3;
+            if(this.flashLightPower > 50){
+                this.mustRecharge = false;
+            }
+        }
+    }
+
     flashLight(){
+        console.log(this.mustRecharge)
         if (this.flashLightOn){
-            this.flashLightOn = false
-        }else{
+            this.flashLightOn = false;
+        } else if (!this.flashLightOn && !this.mustRecharge){
             this.flashLightOn = true
         }
     }
