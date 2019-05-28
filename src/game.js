@@ -6,7 +6,7 @@ export default class Game {
     constructor() {
         this.mario = new Mario();
         this.boos = [];
-        this.maxGhosts = 1;
+        this.maxGhosts = 20;
         this.addBoo();
         this.darknessCounter = 0;
         this.booRandomPosition = this.booRandomPosition.bind(this)
