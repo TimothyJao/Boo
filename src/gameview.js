@@ -1,11 +1,14 @@
 import * as Util from "./util"
 import {KEY, MOVES} from "./constants"
+import {titleScreen} from "./title_screen"
+import {gameOverScreen} from "./game_over_screen"
 
 export default class GameView {
     constructor(game, ctx) {
         this.game = game;
         this.ctx = ctx;
         this.mario = this.game.mario;
+        this.state = "title"
         this.keyDown = {}
         this.handleKeydown = this.handleKeydown.bind(this);
         this.handleKeyup = this.handleKeyup.bind(this);
@@ -22,28 +25,41 @@ export default class GameView {
         });       
     }
 
-    step(timestamp){
-        this.ghostCounter++;
-        if(this.ghostCounter > 20){
-            this.ghostCounter = 0;
-            this.game.addBoo();
+    step() {
+        switch(this.state){
+            case "title":
+                titleScreen(this.ctx)
+                break;
+            case "game":
+                this.ghostCounter++;
+                if(this.ghostCounter > 20){
+                    this.ghostCounter = 0;
+                    this.game.addBoo();
+                }
+                this.game.draw(this.ctx);
+                this.game.step();
+                if (this.mario.flashLightOn){
+                        this.mario.discharge();
+                    
+                } else{
+                    this.mario.recharge();     
+                }
+                if (!this.game.dead) this.game.score++;
+                if(this.game.gameOverChange){this.state = "gameOver"}
+                break;
+            case "gameOver":
+                gameOverScreen(this.ctx, this.game.score)
+                break;
         }
-        this.game.draw(this.ctx);
-        this.game.step();
-        if (this.mario.flashLightOn){
-                this.mario.discharge();
-            
-        } else{
-            this.mario.recharge();     
-        }
-        if (!this.game.dead) this.game.score++;
         requestAnimationFrame(this.step)
     }
 
     handleKeydown(e){
         if (e.repeat || this.keyDown[e.keyCode]) return;
-        if (!this.game.dead){
-            switch(e.keyCode){           
+            switch(e.keyCode){     
+                case KEY.ENTER:
+                    if(this.state === "title" || this.state === "gameOver"){this.state = "game"}
+                    break;
                 case KEY.W:
                     this.mario.addVelocity(MOVES.UP)
                     this.keyDown[KEY.W] = true;
@@ -65,7 +81,6 @@ export default class GameView {
                     this.keyDown[KEY.SPACE] = true;
                     break;
             }
-        }
     }
 
     handleKeyup(e){

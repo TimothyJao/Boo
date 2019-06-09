@@ -17,6 +17,7 @@ export default class Game {
         this.lightRange = {};
         this.browserScaler = 0;
         this.score = 0;
+        this.gameOverChange = false;
     }
 
     addBoo(){
@@ -28,7 +29,7 @@ export default class Game {
             this.boos.push(new Boo(this.booRandomPosition()));
         }
 
-        // testing limited boos with no replacementsw
+        // testing limited boos with no replacements
         // if (this.boos.length < this.maxGhosts) {
         //     this.boos.push(new Boo(this.booRandomPosition()));
         // }
@@ -64,6 +65,9 @@ export default class Game {
         }
         else if(this.darknessCounter >= 50 && this.browserScaler < 3){
             this.gameOverScreen(ctx)
+        }
+        if (this.browserScaler >= 3){
+            this.gameOverChange = true;
         }
     }
 
