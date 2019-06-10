@@ -40,9 +40,14 @@ const drawInstructions = (ctx) => {
 
     ctx.beginPath();
     ctx.textAlign = "left";
+    ctx.font = "30px SuperMario256"
+    ctx.fillText("Instructions", startX, 340)
+    ctx.fillText("Controls", startX, 450);
     ctx.font = "20px SuperMario256"
-    ctx.fillText("- WASD to MOVE", startX + 20, 340);
-    ctx.fillText("- SPACE to TURN ON FLASHLIGHT", startX + 20, 370);
+    ctx.fillText("- Avoid boos at all costs", startX + 20, 370);
+    ctx.fillText("- Use your flashlight to stun boos", startX + 20, 400);
+    ctx.fillText("- WASD to MOVE", startX + 20, 480);
+    ctx.fillText("- SPACE to TURN ON FLASHLIGHT", startX + 20, 510);
     ctx.fillStyle = "";
     ctx.shadowBlur = "";
     ctx.closePath();

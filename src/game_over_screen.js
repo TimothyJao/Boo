@@ -19,30 +19,27 @@ const drawGameOver = (ctx) => {
     ctx.shadowColor = "white";
     ctx.shadowBlur = 10;
     ctx.font = "50px SuperMario256"
-    ctx.fillText("Game Over", GAME_WIDTH / 2, 60);
+    ctx.fillText("Game Over", GAME_WIDTH / 2, 150);
     ctx.closePath();
 }
 
-const drawContinue = (ctx) => {
+const drawContinue = (ctx, score) => {
     ctx.beginPath();
     ctx.strokeStyle = "white";
     ctx.fillStyle = "white";
     ctx.textAlign = "center";
-    ctx.font = "30px SuperMario256"
-    const text = "Press ENTER to begin";
+    ctx.font = "50px SuperMario256"
+    const text = "Press ENTER to play again";
     ctx.shadowColor = "white";
     ctx.shadowBlur = 10;
-    ctx.fillText(text, GAME_WIDTH / 2, 200);
+    ctx.fillText(text, GAME_WIDTH / 2, 450);
     ctx.closePath();
 
     const width = ctx.measureText(text).width;
-    const startX = GAME_WIDTH / 2 - width / 2
 
     ctx.beginPath();
-    ctx.textAlign = "left";
-    ctx.font = "20px SuperMario256"
-    ctx.fillText("- WASD to MOVE", startX + 20, 340);
-    ctx.fillText("- SPACE to TURN ON FLASHLIGHT", startX + 20, 370);
+    ctx.font = "30px SuperMario256"
+    ctx.fillText("Score: " + score, GAME_WIDTH / 2, 240);
     ctx.fillStyle = "";
     ctx.shadowBlur = "";
     ctx.closePath();

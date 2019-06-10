@@ -1,11 +1,12 @@
 import * as Util from "./util"
+import Game from "./game"
 import {KEY, MOVES} from "./constants"
 import {titleScreen} from "./title_screen"
 import {gameOverScreen} from "./game_over_screen"
 
 export default class GameView {
-    constructor(game, ctx) {
-        this.game = game;
+    constructor(ctx) {
+        this.game = new Game();
         this.ctx = ctx;
         this.mario = this.game.mario;
         this.state = "title"
@@ -56,10 +57,16 @@ export default class GameView {
 
     handleKeydown(e){
         if (e.repeat || this.keyDown[e.keyCode]) return;
+        if (e.keyCode === KEY.ENTER){
+            if (this.state === "title" || this.state === "gameOver") {
+                this.state = "game" 
+                this.game = new Game();
+                this.mario = this.game.mario;
+                this.keyDown = {};
+            }
+        } 
+        if (!this.game.dead) {
             switch(e.keyCode){     
-                case KEY.ENTER:
-                    if(this.state === "title" || this.state === "gameOver"){this.state = "game"}
-                    break;
                 case KEY.W:
                     this.mario.addVelocity(MOVES.UP)
                     this.keyDown[KEY.W] = true;
@@ -81,6 +88,7 @@ export default class GameView {
                     this.keyDown[KEY.SPACE] = true;
                     break;
             }
+        }
     }
 
     handleKeyup(e){
