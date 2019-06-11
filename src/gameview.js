@@ -27,32 +27,37 @@ export default class GameView {
     }
 
     step() {
-        switch(this.state){
-            case "title":
-                titleScreen(this.ctx)
-                break;
-            case "game":
-                this.ghostCounter++;
-                if(this.ghostCounter > 20){
-                    this.ghostCounter = 0;
-                    this.game.addBoo();
-                }
-                this.game.draw(this.ctx);
-                this.game.step();
-                if (this.mario.flashLightOn){
-                        this.mario.discharge();
-                    
-                } else{
-                    this.mario.recharge();     
-                }
-                if (!this.game.dead) this.game.score++;
-                if(this.game.gameOverChange){this.state = "gameOver"}
-                break;
-            case "gameOver":
-                gameOverScreen(this.ctx, this.game.score)
-                break;
-        }
-        requestAnimationFrame(this.step)
+        let fps = 60;
+        let that = this;
+        setTimeout(function(){
+            switch (that.state) {
+                case "title":
+                    titleScreen(that.ctx)
+                    break;
+                case "game":
+                    that.ghostCounter++;
+                    if (that.ghostCounter > 20) {
+                        that.ghostCounter = 0;
+                        that.game.addBoo();
+                    }
+                    that.game.draw(that.ctx);
+                    that.game.step();
+                    if (that.mario.flashLightOn) {
+                        that.mario.discharge();
+
+                    } else {
+                        that.mario.recharge();
+                    }
+                    if (!that.game.dead) that.game.score++;
+                    if (that.game.gameOverChange) { that.state = "gameOver" }
+                    break;
+                case "gameOver":
+                    gameOverScreen(that.ctx, that.game.score)
+                    break;
+            }
+            requestAnimationFrame(that.step)
+        }, 1000/fps)
+            
     }
 
     handleKeydown(e){
