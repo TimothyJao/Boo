@@ -97,7 +97,6 @@ class Mario extends MovingObject{
     discharge(){
         if(this.flashLightPower >= 0 && !this.mustRecharge) {
             this.flashLightPower -= 1;
-            console.log(this.flashLightPower)
         } else{
             this.mustRecharge = true;
             this.flashLightOn = false;
@@ -114,7 +113,6 @@ class Mario extends MovingObject{
     }
 
     flashLight(){
-        console.log(this.mustRecharge)
         if (this.flashLightOn){
             this.flashLightOn = false;
         } else if (!this.flashLightOn && !this.mustRecharge){

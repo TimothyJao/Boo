@@ -117,5 +117,10 @@ export default class GameView {
             }
         }
     }
+
+    scaleCanvas(){
+        const canvas = documen.querySelector("#game-canvas");
+        const WIDTH = this.game.GameWidth()
+    }
 }
 

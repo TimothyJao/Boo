@@ -63,10 +63,10 @@ export default class Game {
         else if(this.dead && this.darknessCounter < 50){
             this.trueDarkness(ctx)
         }
-        else if(this.darknessCounter >= 50 && this.browserScaler < 3){
+        else if(this.darknessCounter >= 50 && this.browserScaler < 1.5){
             this.gameOverScreen(ctx)
         }
-        if (this.browserScaler >= 3){
+        if (this.browserScaler >= 1.5){
             this.gameOverChange = true;
         }
     }
@@ -121,7 +121,8 @@ export default class Game {
         let grd = ctx.createRadialGradient(marioX, marioY, 50-this.darknessCounter, marioX, marioY, 100-this.darknessCounter*2);
         grd.addColorStop(0, "transparent");
         grd.addColorStop(1, "black");
-        ctx.fillStyle = grd
+        if(this.darknessCounter === 50){ctx.fillStyle = "black"}
+        else{ctx.fillStyle = grd}
         ctx.arc(marioX, marioY, 120, 0, 2 * Math.PI);
         ctx.fill();
         ctx.closePath();
@@ -134,7 +135,7 @@ export default class Game {
         let newWidth = image.width * this.browserScaler;
         let newHeight = image.height*this.browserScaler
         ctx.drawImage(image, GAME_WIDTH / 2 - newWidth / 2, GAME_HEIGHT / 2 - newHeight / 2, newWidth, newHeight)
-        this.browserScaler += .01;
+        this.browserScaler += .005;
     }
 
     flashlight(ctx){
