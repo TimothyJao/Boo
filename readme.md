@@ -139,7 +139,7 @@ flashlight(ctx){
             ctx.arc(marioX, marioY, 100, 5 * Math.PI / 8, 7 * Math.PI / 8);
         }
 
-        //used to detemrine collision between flashlight and ghosts
+        //used to determine collision between flashlight and ghosts
         this.lightRange = { "point1": [marioX, marioY], "point2": [flashlightStartX, flashLightStartY], "point3": [flashLightEndX, flashLightEndY]}
     }
 ```
@@ -151,12 +151,16 @@ A triangle consists of three points. If a point is contained in the triangle, th
 
 ```JS
 checkInLight(point){
+        //modelled the boo as a point in its middle
         point = [point[0]+10, point[1]+10]
         
+        //made sure the flashlight was on and grabbed the 3 points of the flashlight 
         if (!this.mario.flashLightOn) return;
         let point1 = this.lightRange.point1
         let point2 = this.lightRange.point2
         let point3 = this.lightRange.point3
+
+        //calculated the 4 different areas and compared them to see whether the boo was in the flashlight's range
 
         let mainArea = this.triangleArea(point1, point2, point3)
 
@@ -164,10 +168,11 @@ checkInLight(point){
         let area2 = this.triangleArea(point1, point3, point);
         let area3 = this.triangleArea(point2, point3, point);
         return (mainArea === area1 + area2 + area3)
-    }
+}
 
-    triangleArea(point1, point2, point3){
-        let area = (point1[0]*(point2[1]-point3[1]) + point2[0]*(point3[1]-point1[1]) + point3[0]*(point1[1]-point2[1]))/2
-        return Math.abs(area)
-    }
+triangleArea(point1, point2, point3){
+    //determined area given the 3 points of a triangle using their coordinates
+    let area = (point1[0]*(point2[1]-point3[1]) + point2[0]*(point3[1]-point1[1]) + point3[0]*(point1[1]-point2[1]))/2
+    return Math.abs(area)
+}
 ```
