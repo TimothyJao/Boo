@@ -2,9 +2,7 @@
 
 Boo is a personal creation that uses the timeless characters from the Mario franchise to create a survival game. The whole goal is to avoid the numerous ghosts that constantly swarm you. The longer you survive, the higher your score. The player uses WASD for movement and the spacebar for his flashlight which is his only source of defense.
 
-### Functionality and MVP Features
-
-#### Functionality
+### Functionality
 * The player will use the arrow keys to control mario in 8 directions
 
 * Ghosts will constantly spawn and chase Mario wherever he goes
