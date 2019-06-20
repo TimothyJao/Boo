@@ -1,12 +1,11 @@
 import Mario from "./mario"
 import Boo from "./boo"
-import {GAME_WIDTH, GAME_HEIGHT, SPAWN_RANGE, IMAGES} from "./constants"
+import {GAME_WIDTH, GAME_HEIGHT, SPAWN_RANGE, IMAGES, MAXGHOSTS} from "./constants"
 
 export default class Game {
     constructor() {
         this.mario = new Mario();
         this.boos = [];
-        this.maxGhosts = 20;
         this.addBoo();
         this.darknessCounter = 0;
         this.booRandomPosition = this.booRandomPosition.bind(this)
@@ -22,15 +21,15 @@ export default class Game {
 
     addBoo(){
         if (!this.dead){
-            if (this.boos.length > this.maxGhosts){
-                let randGhost = Math.floor(Math.random()*this.maxGhosts)
+            if (this.boos.length > MAXGHOSTS){
+                let randGhost = Math.floor(Math.random() * MAXGHOSTS)
                 this.boos.splice(randGhost, 1)
             }
             this.boos.push(new Boo(this.booRandomPosition()));
         }
 
         // testing limited boos with no replacements
-        // if (this.boos.length < this.maxGhosts) {
+        // if (this.boos.length < MAXGHOSTS) {
         //     this.boos.push(new Boo(this.booRandomPosition()));
         // }
     }
@@ -81,8 +80,6 @@ export default class Game {
         ctx.rect(GAME_WIDTH, GAME_HEIGHT, -GAME_WIDTH, -GAME_HEIGHT);
         ctx.fillStyle = "black";
         ctx.fill();
-        ctx.closePath();
-        ctx.beginPath();
         let grd = ctx.createRadialGradient(marioX, marioY, 50, marioX, marioY, 120);
         grd.addColorStop(0, "transparent");
         grd.addColorStop(1, "black");
@@ -101,7 +98,7 @@ export default class Game {
             grd.addColorStop(0, "rgba(255, 255, 220, 0.2)");
             grd.addColorStop(1, "rgba(0, 0, 0, 0.2)");
             ctx.moveTo(marioX, marioY)
-            this.flashligh3(ctx);
+            this.flashlight(ctx, true);
             ctx.fillStyle = "rgba(255, 255, 200, 0.4)";
             ctx.fill()
         }
@@ -138,92 +135,95 @@ export default class Game {
         this.browserScaler += .005;
     }
 
-    flashlight(ctx){
+    flashlight(ctx, shadow){
         let marioX = this.mario.pos[0] + 14;
         let marioY = this.mario.pos[1] + 20;
         let flashlightStartX;
         let flashLightStartY;
         let flashLightEndX;
         let flashLightEndY;
-        if (this.mario.direction === "down") {
-            flashlightStartX = marioX - Math.tan(22.5 * Math.PI / 180) * 200;
-            flashLightStartY = marioY + 200
-            flashLightEndX = marioX + Math.tan(22.5 * Math.PI / 180) * 200
-            flashLightEndY = marioY + 200
-            ctx.lineTo(flashlightStartX, flashLightStartY)
-            ctx.lineTo(flashLightEndX, flashLightEndY)
-            ctx.moveTo(marioX, marioY)
-            ctx.arc(marioX, marioY, 100, 3 * Math.PI / 8, 5 * Math.PI / 8);
-        }
-        else if (this.mario.direction === "downright") {
-            flashlightStartX = marioX + Math.tan(22.5 * Math.PI / 180) * 200;
-            flashLightStartY = marioY + 200
-            flashLightEndX = marioX + 200
-            flashLightEndY = marioY + Math.tan(22.5 * Math.PI / 180) * 200
-            ctx.lineTo(flashlightStartX, flashLightStartY)
-            ctx.lineTo(flashLightEndX, flashLightEndY)
-            ctx.moveTo(marioX, marioY)
-            ctx.arc(marioX, marioY, 100, Math.PI / 8, 3 * Math.PI / 8);
-        }
-        else if (this.mario.direction === "right") {
-            flashlightStartX = marioX + 200;
-            flashLightStartY = marioY + Math.tan(22.5 * Math.PI / 180) * 200;
-            flashLightEndX = marioX + 200
-            flashLightEndY = marioY - Math.tan(22.5 * Math.PI / 180) * 200
-            ctx.lineTo(flashlightStartX, flashLightStartY)
-            ctx.lineTo(flashLightEndX, flashLightEndY)
-            ctx.moveTo(marioX, marioY)
-            ctx.arc(marioX, marioY, 100, 15 * Math.PI / 8, Math.PI / 8);
-        }
-        else if (this.mario.direction === "upright") {
-            flashlightStartX = marioX + 200;
-            flashLightStartY = marioY - Math.tan(22.5 * Math.PI / 180) * 200;
-            flashLightEndX = marioX + Math.tan(22.5 * Math.PI / 180) * 200
-            flashLightEndY = marioY - 200
-            ctx.lineTo(flashlightStartX, flashLightStartY)
-            ctx.lineTo(flashLightEndX, flashLightEndY)
-            ctx.moveTo(marioX, marioY)
-            ctx.arc(marioX, marioY, 100, 13 * Math.PI / 8, 15*Math.PI / 8);
-        }
-        else if (this.mario.direction === "up") {
-            flashlightStartX = marioX + Math.tan(22.5 * Math.PI / 180) * 200;
-            flashLightStartY = marioY - 200
-            flashLightEndX = marioX - Math.tan(22.5 * Math.PI / 180) * 200
-            flashLightEndY = marioY - 200
-            ctx.lineTo(flashlightStartX, flashLightStartY)
-            ctx.lineTo(flashLightEndX, flashLightEndY)
-            ctx.moveTo(marioX, marioY)
-            ctx.arc(marioX, marioY, 100, 11 * Math.PI / 8, 13 * Math.PI / 8);
-        }
-        else if (this.mario.direction === "upleft") {
-            flashlightStartX = marioX - Math.tan(22.5 * Math.PI / 180) * 200;
-            flashLightStartY = marioY - 200
-            flashLightEndX = marioX - 200
-            flashLightEndY = marioY - Math.tan(22.5 * Math.PI / 180) * 200
-            ctx.lineTo(flashlightStartX, flashLightStartY)
-            ctx.lineTo(flashLightEndX, flashLightEndY)
-            ctx.moveTo(marioX, marioY)
-            ctx.arc(marioX, marioY, 100, 9 * Math.PI / 8, 11 * Math.PI / 8);
-        }
-        else if (this.mario.direction === "left") {
-            flashlightStartX = marioX - 200;
-            flashLightStartY = marioY - Math.tan(22.5 * Math.PI / 180) * 200
-            flashLightEndX = marioX - 200
-            flashLightEndY = marioY + Math.tan(22.5 * Math.PI / 180) * 200
-            ctx.lineTo(flashlightStartX, flashLightStartY)
-            ctx.lineTo(flashLightEndX, flashLightEndY)
-            ctx.moveTo(marioX, marioY)
-            ctx.arc(marioX, marioY, 100, 7 * Math.PI / 8, 9 * Math.PI / 8);
-        }
-        else if (this.mario.direction === "downleft") {
-            flashlightStartX = marioX - 200
-            flashLightStartY = marioY + Math.tan(22.5 * Math.PI / 180) * 200
-            flashLightEndX = marioX - Math.tan(22.5 * Math.PI / 180) * 200
-            flashLightEndY = marioY + 200
-            ctx.lineTo(flashlightStartX, flashLightStartY)
-            ctx.lineTo(flashLightEndX, flashLightEndY)
-            ctx.moveTo(marioX, marioY)
-            ctx.arc(marioX, marioY, 100, 5 * Math.PI / 8, 7 * Math.PI / 8);
+        switch(this.mario.direction){
+            case "down":
+                flashlightStartX = marioX - Math.tan(22.5 * Math.PI / 180) * 200;
+                flashLightStartY = marioY + 200
+                flashLightEndX = marioX + Math.tan(22.5 * Math.PI / 180) * 200
+                flashLightEndY = marioY + 200
+                ctx.lineTo(flashlightStartX, flashLightStartY)
+                ctx.lineTo(flashLightEndX, flashLightEndY)
+                ctx.moveTo(marioX, marioY)
+                if (!shadow) ctx.arc(marioX, marioY, 100, 3 * Math.PI / 8, 5 * Math.PI / 8); 
+                break;
+            case "downright":
+                flashlightStartX = marioX + Math.tan(22.5 * Math.PI / 180) * 200;
+                flashLightStartY = marioY + 200
+                flashLightEndX = marioX + 200
+                flashLightEndY = marioY + Math.tan(22.5 * Math.PI / 180) * 200
+                ctx.lineTo(flashlightStartX, flashLightStartY)
+                ctx.lineTo(flashLightEndX, flashLightEndY)
+                ctx.moveTo(marioX, marioY)
+                if (!shadow) ctx.arc(marioX, marioY, 100, Math.PI / 8, 3 * Math.PI / 8); 
+                break;
+            case "right":
+                flashlightStartX = marioX + 200;
+                flashLightStartY = marioY + Math.tan(22.5 * Math.PI / 180) * 200;
+                flashLightEndX = marioX + 200
+                flashLightEndY = marioY - Math.tan(22.5 * Math.PI / 180) * 200
+                ctx.lineTo(flashlightStartX, flashLightStartY)
+                ctx.lineTo(flashLightEndX, flashLightEndY)
+                ctx.moveTo(marioX, marioY)
+                if (!shadow) ctx.arc(marioX, marioY, 100, 15 * Math.PI / 8, Math.PI / 8); 
+                break;
+            case "upright":
+                flashlightStartX = marioX + 200;
+                flashLightStartY = marioY - Math.tan(22.5 * Math.PI / 180) * 200;
+                flashLightEndX = marioX + Math.tan(22.5 * Math.PI / 180) * 200
+                flashLightEndY = marioY - 200
+                ctx.lineTo(flashlightStartX, flashLightStartY)
+                ctx.lineTo(flashLightEndX, flashLightEndY)
+                ctx.moveTo(marioX, marioY)
+                if (!shadow) ctx.arc(marioX, marioY, 100, 13 * Math.PI / 8, 15 * Math.PI / 8); 
+                break;
+            case "up":
+                flashlightStartX = marioX + Math.tan(22.5 * Math.PI / 180) * 200;
+                flashLightStartY = marioY - 200
+                flashLightEndX = marioX - Math.tan(22.5 * Math.PI / 180) * 200
+                flashLightEndY = marioY - 200
+                ctx.lineTo(flashlightStartX, flashLightStartY)
+                ctx.lineTo(flashLightEndX, flashLightEndY)
+                ctx.moveTo(marioX, marioY)
+                if (!shadow) ctx.arc(marioX, marioY, 100, 11 * Math.PI / 8, 13 * Math.PI / 8); 
+                break;
+            case "upleft":
+                flashlightStartX = marioX - Math.tan(22.5 * Math.PI / 180) * 200;
+                flashLightStartY = marioY - 200
+                flashLightEndX = marioX - 200
+                flashLightEndY = marioY - Math.tan(22.5 * Math.PI / 180) * 200
+                ctx.lineTo(flashlightStartX, flashLightStartY)
+                ctx.lineTo(flashLightEndX, flashLightEndY)
+                ctx.moveTo(marioX, marioY)
+                if (!shadow) ctx.arc(marioX, marioY, 100, 9 * Math.PI / 8, 11 * Math.PI / 8); 
+                break;
+            case "left":
+                flashlightStartX = marioX - 200;
+                flashLightStartY = marioY - Math.tan(22.5 * Math.PI / 180) * 200
+                flashLightEndX = marioX - 200
+                flashLightEndY = marioY + Math.tan(22.5 * Math.PI / 180) * 200
+                ctx.lineTo(flashlightStartX, flashLightStartY)
+                ctx.lineTo(flashLightEndX, flashLightEndY)
+                ctx.moveTo(marioX, marioY)
+                if (!shadow) ctx.arc(marioX, marioY, 100, 7 * Math.PI / 8, 9 * Math.PI / 8);
+                break;
+            case "downleft":
+                flashlightStartX = marioX - 200
+                flashLightStartY = marioY + Math.tan(22.5 * Math.PI / 180) * 200
+                flashLightEndX = marioX - Math.tan(22.5 * Math.PI / 180) * 200
+                flashLightEndY = marioY + 200
+                ctx.lineTo(flashlightStartX, flashLightStartY)
+                ctx.lineTo(flashLightEndX, flashLightEndY)
+                ctx.moveTo(marioX, marioY)
+                if (!shadow) ctx.arc(marioX, marioY, 100, 5 * Math.PI / 8, 7 * Math.PI / 8); 
+                break;
+
         }
         this.lightRange = { "point1": [marioX, marioY], "point2": [flashlightStartX, flashLightStartY], "point3": [flashLightEndX, flashLightEndY]}
     }
@@ -254,87 +254,6 @@ export default class Game {
         }
         else if (this.mario.direction === "downleft") {
             ctx.arc(marioX, marioY, 100, 5 * Math.PI / 8, 7 * Math.PI / 8, true);
-        }
-    }
-
-    flashligh3(ctx){
-        let marioX = this.mario.pos[0] + 14;
-        let marioY = this.mario.pos[1] + 20;
-        let mario1X;
-        let mario1Y;
-        let mario2X;
-        let mario2Y;
-        if (this.mario.direction === "down") {
-            mario1X = marioX - Math.tan(22.5 * Math.PI / 180) * 200;
-            mario1Y = marioY + 200
-            mario2X = marioX + Math.tan(22.5 * Math.PI / 180) * 200
-            mario2Y = marioY + 200
-            ctx.lineTo(mario1X, mario1Y)
-            ctx.lineTo(mario2X, mario2Y)
-            ctx.moveTo(marioX, marioY)
-        }
-        else if (this.mario.direction === "downright") {
-            mario1X = marioX + Math.tan(22.5 * Math.PI / 180) * 200;
-            mario1Y = marioY + 200
-            mario2X = marioX + 200
-            mario2Y = marioY + Math.tan(22.5 * Math.PI / 180) * 200
-            ctx.lineTo(mario1X, mario1Y)
-            ctx.lineTo(mario2X, mario2Y)
-            ctx.moveTo(marioX, marioY)
-        }
-        else if (this.mario.direction === "right") {
-            mario1X = marioX + 200;
-            mario1Y = marioY + Math.tan(22.5 * Math.PI / 180) * 200;
-            mario2X = marioX + 200
-            mario2Y = marioY - Math.tan(22.5 * Math.PI / 180) * 200
-            ctx.lineTo(mario1X, mario1Y)
-            ctx.lineTo(mario2X, mario2Y)
-            ctx.moveTo(marioX, marioY)
-        }
-        else if (this.mario.direction === "upright") {
-            mario1X = marioX + 200;
-            mario1Y = marioY - Math.tan(22.5 * Math.PI / 180) * 200;
-            mario2X = marioX + Math.tan(22.5 * Math.PI / 180) * 200
-            mario2Y = marioY - 200
-            ctx.lineTo(mario1X, mario1Y)
-            ctx.lineTo(mario2X, mario2Y)
-            ctx.moveTo(marioX, marioY)
-        }
-        else if (this.mario.direction === "up") {
-            mario1X = marioX + Math.tan(22.5 * Math.PI / 180) * 200;
-            mario1Y = marioY - 200
-            mario2X = marioX - Math.tan(22.5 * Math.PI / 180) * 200
-            mario2Y = marioY - 200
-            ctx.lineTo(mario1X, mario1Y)
-            ctx.lineTo(mario2X, mario2Y)
-            ctx.moveTo(marioX, marioY)
-        }
-        else if (this.mario.direction === "upleft") {
-            mario1X = marioX - Math.tan(22.5 * Math.PI / 180) * 200;
-            mario1Y = marioY - 200
-            mario2X = marioX - 200
-            mario2Y = marioY - Math.tan(22.5 * Math.PI / 180) * 200
-            ctx.lineTo(mario1X, mario1Y)
-            ctx.lineTo(mario2X, mario2Y)
-            ctx.moveTo(marioX, marioY)
-        }
-        else if (this.mario.direction === "left") {
-            mario1X = marioX - 200;
-            mario1Y = marioY - Math.tan(22.5 * Math.PI / 180) * 200
-            mario2X = marioX - 200
-            mario2Y = marioY + Math.tan(22.5 * Math.PI / 180) * 200
-            ctx.lineTo(mario1X, mario1Y)
-            ctx.lineTo(mario2X, mario2Y)
-            ctx.moveTo(marioX, marioY)
-        }
-        else if (this.mario.direction === "downleft") {
-            mario1X = marioX - 200
-            mario1Y = marioY + Math.tan(22.5 * Math.PI / 180) * 200
-            mario2X = marioX - Math.tan(22.5 * Math.PI / 180) * 200
-            mario2Y = marioY + 200
-            ctx.lineTo(mario1X, mario1Y)
-            ctx.lineTo(mario2X, mario2Y)
-            ctx.moveTo(marioX, marioY)
         }
     }
 
