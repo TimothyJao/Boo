@@ -1,3 +1,4 @@
+import {FLASHLIGHT_LENGTH} from "./constants"
 
 export const flashlight = (ctx, shadow, mario) => {
     let marioX = mario.pos[0] + 14;
@@ -8,80 +9,80 @@ export const flashlight = (ctx, shadow, mario) => {
     let flashLightEndY;
     switch (mario.direction) {
         case "down":
-            flashlightStartX = marioX - Math.tan(22.5 * Math.PI / 180) * 200;
-            flashLightStartY = marioY + 200
-            flashLightEndX = marioX + Math.tan(22.5 * Math.PI / 180) * 200
-            flashLightEndY = marioY + 200
+            flashlightStartX = marioX - Math.tan(22.5 * Math.PI / 180) * FLASHLIGHT_LENGTH;
+            flashLightStartY = marioY + FLASHLIGHT_LENGTH
+            flashLightEndX = marioX + Math.tan(22.5 * Math.PI / 180) * FLASHLIGHT_LENGTH
+            flashLightEndY = marioY + FLASHLIGHT_LENGTH
             ctx.lineTo(flashlightStartX, flashLightStartY)
             ctx.lineTo(flashLightEndX, flashLightEndY)
             ctx.moveTo(marioX, marioY)
             if (!shadow) ctx.arc(marioX, marioY, 100, 3 * Math.PI / 8, 5 * Math.PI / 8);
             break;
         case "downright":
-            flashlightStartX = marioX + Math.tan(22.5 * Math.PI / 180) * 200;
-            flashLightStartY = marioY + 200
-            flashLightEndX = marioX + 200
-            flashLightEndY = marioY + Math.tan(22.5 * Math.PI / 180) * 200
+            flashlightStartX = marioX + Math.tan(22.5 * Math.PI / 180) * FLASHLIGHT_LENGTH;
+            flashLightStartY = marioY + FLASHLIGHT_LENGTH
+            flashLightEndX = marioX + FLASHLIGHT_LENGTH
+            flashLightEndY = marioY + Math.tan(22.5 * Math.PI / 180) * FLASHLIGHT_LENGTH
             ctx.lineTo(flashlightStartX, flashLightStartY)
             ctx.lineTo(flashLightEndX, flashLightEndY)
             ctx.moveTo(marioX, marioY)
             if (!shadow) ctx.arc(marioX, marioY, 100, Math.PI / 8, 3 * Math.PI / 8);
             break;
         case "right":
-            flashlightStartX = marioX + 200;
-            flashLightStartY = marioY + Math.tan(22.5 * Math.PI / 180) * 200;
-            flashLightEndX = marioX + 200
-            flashLightEndY = marioY - Math.tan(22.5 * Math.PI / 180) * 200
+            flashlightStartX = marioX + FLASHLIGHT_LENGTH;
+            flashLightStartY = marioY + Math.tan(22.5 * Math.PI / 180) * FLASHLIGHT_LENGTH;
+            flashLightEndX = marioX + FLASHLIGHT_LENGTH
+            flashLightEndY = marioY - Math.tan(22.5 * Math.PI / 180) * FLASHLIGHT_LENGTH
             ctx.lineTo(flashlightStartX, flashLightStartY)
             ctx.lineTo(flashLightEndX, flashLightEndY)
             ctx.moveTo(marioX, marioY)
             if (!shadow) ctx.arc(marioX, marioY, 100, 15 * Math.PI / 8, Math.PI / 8);
             break;
         case "upright":
-            flashlightStartX = marioX + 200;
-            flashLightStartY = marioY - Math.tan(22.5 * Math.PI / 180) * 200;
-            flashLightEndX = marioX + Math.tan(22.5 * Math.PI / 180) * 200
-            flashLightEndY = marioY - 200
+            flashlightStartX = marioX + FLASHLIGHT_LENGTH;
+            flashLightStartY = marioY - Math.tan(22.5 * Math.PI / 180) * FLASHLIGHT_LENGTH;
+            flashLightEndX = marioX + Math.tan(22.5 * Math.PI / 180) * FLASHLIGHT_LENGTH
+            flashLightEndY = marioY - FLASHLIGHT_LENGTH
             ctx.lineTo(flashlightStartX, flashLightStartY)
             ctx.lineTo(flashLightEndX, flashLightEndY)
             ctx.moveTo(marioX, marioY)
             if (!shadow) ctx.arc(marioX, marioY, 100, 13 * Math.PI / 8, 15 * Math.PI / 8);
             break;
         case "up":
-            flashlightStartX = marioX + Math.tan(22.5 * Math.PI / 180) * 200;
-            flashLightStartY = marioY - 200
-            flashLightEndX = marioX - Math.tan(22.5 * Math.PI / 180) * 200
-            flashLightEndY = marioY - 200
+            flashlightStartX = marioX + Math.tan(22.5 * Math.PI / 180) * FLASHLIGHT_LENGTH;
+            flashLightStartY = marioY - FLASHLIGHT_LENGTH
+            flashLightEndX = marioX - Math.tan(22.5 * Math.PI / 180) * FLASHLIGHT_LENGTH
+            flashLightEndY = marioY - FLASHLIGHT_LENGTH
             ctx.lineTo(flashlightStartX, flashLightStartY)
             ctx.lineTo(flashLightEndX, flashLightEndY)
             ctx.moveTo(marioX, marioY)
             if (!shadow) ctx.arc(marioX, marioY, 100, 11 * Math.PI / 8, 13 * Math.PI / 8);
             break;
         case "upleft":
-            flashlightStartX = marioX - Math.tan(22.5 * Math.PI / 180) * 200;
-            flashLightStartY = marioY - 200
-            flashLightEndX = marioX - 200
-            flashLightEndY = marioY - Math.tan(22.5 * Math.PI / 180) * 200
+            flashlightStartX = marioX - Math.tan(22.5 * Math.PI / 180) * FLASHLIGHT_LENGTH;
+            flashLightStartY = marioY - FLASHLIGHT_LENGTH
+            flashLightEndX = marioX - FLASHLIGHT_LENGTH
+            flashLightEndY = marioY - Math.tan(22.5 * Math.PI / 180) * FLASHLIGHT_LENGTH
             ctx.lineTo(flashlightStartX, flashLightStartY)
             ctx.lineTo(flashLightEndX, flashLightEndY)
             ctx.moveTo(marioX, marioY)
             if (!shadow) ctx.arc(marioX, marioY, 100, 9 * Math.PI / 8, 11 * Math.PI / 8);
             break;
         case "left":
-            flashlightStartX = marioX - 200;
-            flashLightStartY = marioY - Math.tan(22.5 * Math.PI / 180) * 200
-            flashLightEndX = marioX - 200
-            flashLightEndY = marioY + Math.tan(22.5 * Math.PI / 180) * 200
+            flashlightStartX = marioX - FLASHLIGHT_LENGTH;
+            flashLightStartY = marioY - Math.tan(22.5 * Math.PI / 180) * FLASHLIGHT_LENGTH
+            flashLightEndX = marioX - FLASHLIGHT_LENGTH
+            flashLightEndY = marioY + Math.tan(22.5 * Math.PI / 180) * FLASHLIGHT_LENGTH
             ctx.lineTo(flashlightStartX, flashLightStartY)
             ctx.lineTo(flashLightEndX, flashLightEndY)
             ctx.moveTo(marioX, marioY)
             if (!shadow) ctx.arc(marioX, marioY, 100, 7 * Math.PI / 8, 9 * Math.PI / 8);
             break;
         case "downleft":
-            flashlightStartX = marioX - 200
-            flashLightStartY = marioY + Math.tan(22.5 * Math.PI / 180) * 200
-            flashLightEndX = marioX - Math.tan(22.5 * Math.PI / 180) * 200
-            flashLightEndY = marioY + 200
+            flashlightStartX = marioX - FLASHLIGHT_LENGTH
+            flashLightStartY = marioY + Math.tan(22.5 * Math.PI / 180) * FLASHLIGHT_LENGTH
+            flashLightEndX = marioX - Math.tan(22.5 * Math.PI / 180) * FLASHLIGHT_LENGTH
+            flashLightEndY = marioY + FLASHLIGHT_LENGTH
             ctx.lineTo(flashlightStartX, flashLightStartY)
             ctx.lineTo(flashLightEndX, flashLightEndY)
             ctx.moveTo(marioX, marioY)
