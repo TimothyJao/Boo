@@ -7,17 +7,16 @@ export default class Game {
     constructor() {
         this.mario = new Mario();
         this.boos = [];
-        this.addBoo();
         this.darknessCounter = 0;
-        this.booRandomPosition = this.booRandomPosition.bind(this)
         this.dead = false;
-        this.checkCollisions = this.checkCollisions.bind(this)
-        this.drawDarkness = this.drawDarkness.bind(this)
-        this.trueDarkness = this.trueDarkness.bind(this)
         this.lightRange = {};
         this.browserScaler = 0;
         this.score = 0;
         this.gameOverChange = false;
+        this.booRandomPosition = this.booRandomPosition.bind(this)
+        this.checkCollisions = this.checkCollisions.bind(this)
+        this.drawDarkness = this.drawDarkness.bind(this)
+        this.trueDarkness = this.trueDarkness.bind(this)
     }
 
     addBoo(){
@@ -36,7 +35,7 @@ export default class Game {
     }
 
     booRandomPosition(){
-        let booX = Math.floor(Math.random()*GAME_WIDTH);
+        let booX = Math.floor(Math.random() * GAME_WIDTH);
         let booY = Math.floor(Math.random() * GAME_HEIGHT);
         let booPos = [booX, booY]
         if ((this.mario.pos[0] >= (booX - SPAWN_RANGE) && this.mario.pos[0] <= (booX + SPAWN_RANGE)) ||
@@ -63,10 +62,10 @@ export default class Game {
         else if(this.dead && this.darknessCounter < 50){
             this.trueDarkness(ctx)
         }
-        else if(this.darknessCounter >= 50 && this.browserScaler < 1.5){
+        else if(this.darknessCounter >= 50 && this.browserScaler < 1.3){
             this.gameOverScreen(ctx)
         }
-        if (this.browserScaler >= 1.5){
+        if (this.browserScaler >= 1.3){
             this.gameOverChange = true;
         }
     }
@@ -133,7 +132,7 @@ export default class Game {
         let newWidth = image.width * this.browserScaler;
         let newHeight = image.height*this.browserScaler
         ctx.drawImage(image, GAME_WIDTH / 2 - newWidth / 2, GAME_HEIGHT / 2 - newHeight / 2, newWidth, newHeight)
-        this.browserScaler += .005;
+        this.browserScaler += .004;
     }
 
     moveObjects(){
