@@ -2,7 +2,7 @@ export const GAME_WIDTH = 1280;
 export const GAME_HEIGHT = 720; 
 export const SPEED = 1.33;
 export const DIAG_SPEED = Math.sqrt(2*SPEED);
-export const MAXGHOSTS = 0;
+export const MAXGHOSTS = 20;
 export const SPAWN_RANGE = 50;
 export const FLASHLIGHT_LENGTH = 200;
 

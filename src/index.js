@@ -1,5 +1,4 @@
 import GameView from "./gameview";
-import Game from "./game"
 import { GAME_WIDTH, GAME_HEIGHT } from "./constants"
 
 document.addEventListener("DOMContentLoaded", ()=>{

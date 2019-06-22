@@ -1,11 +1,13 @@
-import MovingObject from "./MovingObject"
 import { IMAGES, SPEED } from "./constants"
 
 Window.image = IMAGES
 
-class Boo extends MovingObject {
+class Boo{
     constructor(pos, vel = [0, 0], direction = "left", imageCount = 0, state="attacking") {
-        super(pos, vel, direction, imageCount);
+        this.pos = pos;
+        this.vel = vel;
+        this.direction = direction;
+        this.imageCount = imageCount;
         this.state = state;
         this.counter = 0;
         this.hidingCounter = 0;

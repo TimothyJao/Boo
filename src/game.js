@@ -1,7 +1,7 @@
 import Mario from "./mario"
 import Boo from "./boo"
 import {GAME_WIDTH, GAME_HEIGHT, SPAWN_RANGE, IMAGES, MAXGHOSTS} from "./constants"
-import {flashlight, flashlightShadow} from "./flashlight"
+import {flashlight, flashlightShadow, checkInLight} from "./flashlight"
 
 export default class Game {
     constructor() {
@@ -135,27 +135,6 @@ export default class Game {
         ctx.drawImage(image, GAME_WIDTH / 2 - newWidth / 2, GAME_HEIGHT / 2 - newHeight / 2, newWidth, newHeight)
         this.browserScaler += .005;
     }
-    
-    checkInLight(point){
-        point = [point[0]+10, point[1]+10]
-        
-        if (!this.mario.flashLightOn) return;
-        let point1 = this.lightRange.point1
-        let point2 = this.lightRange.point2
-        let point3 = this.lightRange.point3
-
-        let mainArea = this.triangleArea(point1, point2, point3)
-
-        let area1 = this.triangleArea(point1, point2, point);
-        let area2 = this.triangleArea(point1, point3, point);
-        let area3 = this.triangleArea(point2, point3, point);
-        return (mainArea === area1 + area2 + area3)
-    }
-
-    triangleArea(point1, point2, point3){
-        let area = (point1[0]*(point2[1]-point3[1]) + point2[0]*(point3[1]-point1[1]) + point3[0]*(point1[1]-point2[1]))/2
-        return Math.abs(area)
-    }
 
     moveObjects(){
         for (let i = 0; i < this.allObjects().length; i++){
@@ -168,7 +147,7 @@ export default class Game {
             if(this.boos[i].checkCollision(this.mario)){
                 this.gameOver()
             }
-            else if (this.checkInLight(this.boos[i].pos)) {
+            else if (checkInLight(this.boos[i].pos, this.mario, this.lightRange)) {
                 this.boos[i].hide();
             } else if(this.boos[i].state === "hiding"){
                 this.boos[i].incrementHiding();

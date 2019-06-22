@@ -93,6 +93,27 @@ export const flashlight = (ctx, shadow, mario) => {
     return { "point1": [marioX, marioY], "point2": [flashlightStartX, flashLightStartY], "point3": [flashLightEndX, flashLightEndY] }
 }
 
+export const checkInLight = (ghostPos, mario, lightRange) => {
+    ghostPos = [ghostPos[0] + 10, ghostPos[1] + 10]
+
+    if (!mario.flashLightOn) return;
+    let point1 = lightRange.point1
+    let point2 = lightRange.point2
+    let point3 = lightRange.point3
+
+    let mainArea = triangleArea(point1, point2, point3)
+
+    let area1 = triangleArea(point1, point2, ghostPos);
+    let area2 = triangleArea(point1, point3, ghostPos);
+    let area3 = triangleArea(point2, point3, ghostPos);
+    return (mainArea === area1 + area2 + area3)
+}
+
+const triangleArea = (point1, point2, point3) => {
+    let area = (point1[0] * (point2[1] - point3[1]) + point2[0] * (point3[1] - point1[1]) + point3[0] * (point1[1] - point2[1])) / 2
+    return Math.abs(area)
+}
+
 export const flashlightShadow = (ctx, mario) => {
     let marioX = mario.pos[0] + 14;
     let marioY = mario.pos[1] + 20;
