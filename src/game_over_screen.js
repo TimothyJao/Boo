@@ -17,7 +17,7 @@ const drawGameOver = (ctx) => {
     ctx.fillStyle = "white";
     ctx.textAlign = "center";
     ctx.shadowColor = "white";
-    ctx.shadowBlur = 10;
+    ctx.shadowBlur = 5;
     ctx.font = "50px SuperMario256"
     ctx.fillText("Game Over", GAME_WIDTH / 2, 150);
     ctx.closePath();
@@ -31,7 +31,7 @@ const drawContinue = (ctx, score) => {
     ctx.font = "50px SuperMario256"
     const text = "Press ENTER to play again";
     ctx.shadowColor = "white";
-    ctx.shadowBlur = 10;
+    ctx.shadowBlur = 5;
     ctx.fillText(text, GAME_WIDTH / 2, 450);
     ctx.closePath();
 

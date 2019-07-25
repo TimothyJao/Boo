@@ -17,7 +17,7 @@ const drawTitle = (ctx) => {
     ctx.fillStyle = "white";
     ctx.textAlign = "center";
     ctx.shadowColor = "white";
-    ctx.shadowBlur = 10;
+    ctx.shadowBlur = 4;
     ctx.font = "80px SuperMario256"
     ctx.fillText("Boo", GAME_WIDTH/2, 150);
     ctx.closePath();
@@ -31,7 +31,7 @@ const drawInstructions = (ctx) => {
     ctx.font = "30px SuperMario256"
     const text = "Press ENTER to begin";
     ctx.shadowColor = "white";
-    ctx.shadowBlur = 10;
+    ctx.shadowBlur = 4;
     ctx.fillText(text, GAME_WIDTH/2, 250);
     ctx.closePath();
 
