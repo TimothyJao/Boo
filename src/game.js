@@ -27,11 +27,6 @@ export default class Game {
             }
             this.boos.push(new Boo(this.booRandomPosition()));
         }
-
-        // testing limited boos with no replacements
-        // if (this.boos.length < MAXGHOSTS) {
-        //     this.boos.push(new Boo(this.booRandomPosition()));
-        // }
     }
 
     booRandomPosition(){
@@ -54,10 +49,11 @@ export default class Game {
             let boo = this.boos[i];
             boo.nextMove(this.mario, !this.dead);
             ctx.drawImage(boo.image(), boo.pos[0], boo.pos[1]);
-            
         } 
         if (!this.dead){
             this.drawDarkness(ctx)
+            this.drawScore(ctx)
+            this.drawFlashlightBar(ctx)
         } 
         else if(this.dead && this.darknessCounter < 50){
             this.trueDarkness(ctx)
@@ -68,6 +64,36 @@ export default class Game {
         if (this.browserScaler >= 1.3){
             this.gameOverChange = true;
         }
+    }
+
+    drawScore(ctx){
+        ctx.beginPath();
+        ctx.fillStyle = "white";
+        ctx.textAlign = "center";
+        ctx.shadowColor = "white";
+        ctx.shadowBlur = 4;
+        ctx.font = "20x SuperMario256"
+        ctx.fillText("Score:", GAME_WIDTH-100 , 30);
+        ctx.fillText(this.score, GAME_WIDTH - 100, 60);
+        ctx.shadowBlur = 0;
+        ctx.closePath();
+    }
+
+    drawFlashlightBar(ctx){
+        ctx.beginPath();
+        ctx.fillStyle = "white";
+        ctx.textAlign = "center";
+        ctx.shadowColor = "white";
+        ctx.shadowBlur = 4;
+        ctx.font = "20x SuperMario256"
+        ctx.fillText("Flashlight:", GAME_WIDTH - 100, 100);
+        ctx.shadowBlur = 0;
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.fillStyle = "white";
+        ctx.fillRect(GAME_WIDTH - 120, 130, GAME_WIDTH - 160, 150)
+        ctx.closePath();
     }
 
     drawDarkness(ctx){
