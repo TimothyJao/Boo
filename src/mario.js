@@ -63,7 +63,7 @@ class Mario{
     }
 
     canMove(){
-        if (this.pos[0] > GAME_WIDTH-22 && this.vel[0] > 0){
+        if (this.pos[0] > GAME_WIDTH-222 && this.vel[0] > 0){
             return false;
         }
 

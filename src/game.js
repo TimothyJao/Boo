@@ -12,6 +12,7 @@ export default class Game {
         this.lightRange = {};
         this.browserScaler = 0;
         this.score = 0;
+        this.batteryColor = "green";
         this.gameOverChange = false;
         this.booRandomPosition = this.booRandomPosition.bind(this)
         this.checkCollisions = this.checkCollisions.bind(this)
@@ -52,6 +53,7 @@ export default class Game {
         } 
         if (!this.dead){
             this.drawDarkness(ctx)
+            this.drawBorder(ctx)
             this.drawScore(ctx)
             this.drawFlashlightBar(ctx)
         } 
@@ -66,12 +68,19 @@ export default class Game {
         }
     }
 
+    drawBorder(ctx){
+        ctx.beginPath();
+        ctx.fillStyle = "black";
+        ctx.fillRect(GAME_WIDTH - 200, 0, 200, GAME_HEIGHT)
+        ctx.closePath();
+    }
+
     drawScore(ctx){
         ctx.beginPath();
         ctx.fillStyle = "white";
         ctx.textAlign = "center";
         ctx.shadowColor = "white";
-        ctx.shadowBlur = 4;
+        ctx.shadowBlur = 2;
         ctx.font = "20x SuperMario256"
         ctx.fillText("Score:", GAME_WIDTH-100 , 30);
         ctx.fillText(this.score, GAME_WIDTH - 100, 60);
@@ -84,7 +93,7 @@ export default class Game {
         ctx.fillStyle = "white";
         ctx.textAlign = "center";
         ctx.shadowColor = "white";
-        ctx.shadowBlur = 4;
+        ctx.shadowBlur = 2;
         ctx.font = "20x SuperMario256"
         ctx.fillText("Flashlight:", GAME_WIDTH - 100, 100);
         ctx.shadowBlur = 0;
@@ -92,7 +101,9 @@ export default class Game {
 
         ctx.beginPath();
         ctx.fillStyle = "white";
-        ctx.fillRect(GAME_WIDTH - 120, 130, GAME_WIDTH - 160, 150)
+        ctx.fillRect(GAME_WIDTH - 177, 115, 150, 20)
+        ctx.fillStyle = this.batteryColor;
+        ctx.fillRect(GAME_WIDTH - 177, 115, 150*this.mario.flashLightPower/100, 20)
         ctx.closePath();
     }
 
