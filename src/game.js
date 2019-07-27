@@ -102,7 +102,8 @@ export default class Game {
         ctx.beginPath();
         ctx.fillStyle = "white";
         ctx.fillRect(GAME_WIDTH - 177, 115, 150, 20)
-        ctx.fillStyle = this.batteryColor;
+        if (this.mario.flashLightPower<50 && this.mario.mustRecharge) ctx.fillStyle = "red"
+        else ctx.fillStyle = "green"
         ctx.fillRect(GAME_WIDTH - 177, 115, 150*this.mario.flashLightPower/100, 20)
         ctx.closePath();
     }
