@@ -2,6 +2,7 @@ import Mario from "./mario"
 import Boo from "./boo"
 import {GAME_WIDTH, GAME_HEIGHT, SPAWN_RANGE, IMAGES, MAXGHOSTS} from "./constants"
 import {flashlight, flashlightShadow, checkInLight} from "./flashlight"
+import {drawScore, drawFlashlightBar} from "./sidebar"
 
 export default class Game {
     constructor() {
@@ -31,7 +32,7 @@ export default class Game {
     }
 
     booRandomPosition(){
-        let booX = Math.floor(Math.random() * GAME_WIDTH);
+        let booX = Math.floor(Math.random() * (GAME_WIDTH-200));
         let booY = Math.floor(Math.random() * GAME_HEIGHT);
         let booPos = [booX, booY]
         if ((this.mario.pos[0] >= (booX - SPAWN_RANGE) && this.mario.pos[0] <= (booX + SPAWN_RANGE)) ||
@@ -42,7 +43,7 @@ export default class Game {
     }
 
     draw(ctx){
-        ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+        ctx.clearRect(0, 0, GAME_WIDTH-200, GAME_HEIGHT);
         ctx.fillStyle = "#888888";
         ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT)
         ctx.drawImage(this.mario.image(), this.mario.pos[0], this.mario.pos[1])
@@ -54,8 +55,8 @@ export default class Game {
         if (!this.dead){
             this.drawDarkness(ctx)
             this.drawBorder(ctx)
-            this.drawScore(ctx)
-            this.drawFlashlightBar(ctx)
+            drawScore(ctx, this.score)
+            drawFlashlightBar(ctx, this.mario)
         } 
         else if(this.dead && this.darknessCounter < 50){
             this.trueDarkness(ctx)
@@ -75,39 +76,6 @@ export default class Game {
         ctx.closePath();
     }
 
-    drawScore(ctx){
-        ctx.beginPath();
-        ctx.fillStyle = "white";
-        ctx.textAlign = "center";
-        ctx.shadowColor = "white";
-        ctx.shadowBlur = 2;
-        ctx.font = "20x SuperMario256"
-        ctx.fillText("Score:", GAME_WIDTH-100 , 30);
-        ctx.fillText(this.score, GAME_WIDTH - 100, 60);
-        ctx.shadowBlur = 0;
-        ctx.closePath();
-    }
-
-    drawFlashlightBar(ctx){
-        ctx.beginPath();
-        ctx.fillStyle = "white";
-        ctx.textAlign = "center";
-        ctx.shadowColor = "white";
-        ctx.shadowBlur = 2;
-        ctx.font = "20x SuperMario256"
-        ctx.fillText("Flashlight:", GAME_WIDTH - 100, 100);
-        ctx.shadowBlur = 0;
-        ctx.closePath();
-
-        ctx.beginPath();
-        ctx.fillStyle = "white";
-        ctx.fillRect(GAME_WIDTH - 177, 115, 150, 20)
-        if (this.mario.flashLightPower<50 && this.mario.mustRecharge) ctx.fillStyle = "red"
-        else ctx.fillStyle = "green"
-        ctx.fillRect(GAME_WIDTH - 177, 115, 150*this.mario.flashLightPower/100, 20)
-        ctx.closePath();
-    }
-
     drawDarkness(ctx){
         let marioX = this.mario.pos[0] + 14;
         let marioY = this.mario.pos[1] + 20;
@@ -115,7 +83,7 @@ export default class Game {
         ctx.arc(marioX, marioY, 100, 0, 2 * Math.PI, true);
         ctx.moveTo(marioX, marioY)
         if(this.mario.flashLightOn) {this.lightRange = flashlight(ctx, false, this.mario)}
-        ctx.rect(GAME_WIDTH, GAME_HEIGHT, -GAME_WIDTH, -GAME_HEIGHT);
+        ctx.rect(GAME_WIDTH-200, GAME_HEIGHT, -GAME_WIDTH, -GAME_HEIGHT);
         ctx.fillStyle = "black";
         ctx.fill();
         let grd = ctx.createRadialGradient(marioX, marioY, 50, marioX, marioY, 120);
