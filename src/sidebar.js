@@ -1,5 +1,5 @@
 
-import { GAME_WIDTH, GAME_HEIGHT} from "./constants"
+import { GAME_WIDTH} from "./constants"
 
 export const drawScore = function (ctx, score){
         ctx.beginPath();

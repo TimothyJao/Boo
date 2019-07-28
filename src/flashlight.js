@@ -97,6 +97,7 @@ export const checkInLight = (ghostPos, mario, lightRange) => {
     ghostPos = [ghostPos[0] + 10, ghostPos[1] + 10]
 
     if (!mario.flashLightOn) return;
+    
     let point1 = lightRange.point1
     let point2 = lightRange.point2
     let point3 = lightRange.point3

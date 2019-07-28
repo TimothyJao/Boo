@@ -1,7 +1,8 @@
 import Mario from "./mario"
 import Boo from "./boo"
 import {GAME_WIDTH, GAME_HEIGHT, SPAWN_RANGE, IMAGES, MAXGHOSTS} from "./constants"
-import {flashlight, flashlightShadow, checkInLight} from "./flashlight"
+import {checkInLight} from "./flashlight"
+import {drawDarkness, trueDarkness, gameOverScreen} from "./darkness"
 import {drawScore, drawFlashlightBar} from "./sidebar"
 
 export default class Game {
@@ -17,8 +18,6 @@ export default class Game {
         this.gameOverChange = false;
         this.booRandomPosition = this.booRandomPosition.bind(this)
         this.checkCollisions = this.checkCollisions.bind(this)
-        this.drawDarkness = this.drawDarkness.bind(this)
-        this.trueDarkness = this.trueDarkness.bind(this)
     }
 
     addBoo(){
@@ -53,16 +52,16 @@ export default class Game {
             ctx.drawImage(boo.image(), boo.pos[0], boo.pos[1]);
         } 
         if (!this.dead){
-            this.drawDarkness(ctx)
+            this.lightRange = drawDarkness(ctx, this.mario)
             this.drawBorder(ctx)
             drawScore(ctx, this.score)
             drawFlashlightBar(ctx, this.mario)
         } 
         else if(this.dead && this.darknessCounter < 50){
-            this.trueDarkness(ctx)
+            this.darknessCounter = trueDarkness(ctx, this.mario, this.darknessCounter)
         }
         else if(this.darknessCounter >= 50 && this.browserScaler < 1.3){
-            this.gameOverScreen(ctx)
+            this.browserScaler = gameOverScreen(ctx, this.browserScaler)
         }
         if (this.browserScaler >= 1.3){
             this.gameOverChange = true;
@@ -76,70 +75,7 @@ export default class Game {
         ctx.closePath();
     }
 
-    drawDarkness(ctx){
-        let marioX = this.mario.pos[0] + 14;
-        let marioY = this.mario.pos[1] + 20;
-        ctx.beginPath();
-        ctx.arc(marioX, marioY, 100, 0, 2 * Math.PI, true);
-        ctx.moveTo(marioX, marioY)
-        if(this.mario.flashLightOn) {this.lightRange = flashlight(ctx, false, this.mario)}
-        ctx.rect(GAME_WIDTH-200, GAME_HEIGHT, -GAME_WIDTH, -GAME_HEIGHT);
-        ctx.fillStyle = "black";
-        ctx.fill();
-        let grd = ctx.createRadialGradient(marioX, marioY, 50, marioX, marioY, 120);
-        grd.addColorStop(0, "transparent");
-        grd.addColorStop(1, "black");
-        ctx.fillStyle = grd
-        ctx.moveTo(marioX, marioY)
-        if (this.mario.flashLightOn) {
-            flashlightShadow(ctx, this.mario);
-        } else{
-            ctx.arc(marioX, marioY, 100, 0, 2 * Math.PI, );
-        }
-        ctx.fill();
-        ctx.closePath();
-        ctx.beginPath()
-        if(this.mario.flashLightOn){
-            let grd = ctx.createLinearGradient(marioX, marioY, 150, 0);
-            grd.addColorStop(0, "rgba(255, 255, 220, 0.2)");
-            grd.addColorStop(1, "rgba(0, 0, 0, 0.2)");
-            ctx.moveTo(marioX, marioY)
-            this.lightRange = flashlight(ctx, true, this.mario);
-            ctx.fillStyle = "rgba(255, 255, 200, 0.4)";
-            ctx.fill()
-        }
-    }
-
-    trueDarkness(ctx){
-        this.darknessCounter += .5;
-        let marioX = this.mario.pos[0] + 14;
-        let marioY = this.mario.pos[1] + 20;
-        ctx.beginPath();
-        ctx.fillStyle = "black";
-        ctx.arc(marioX, marioY, 100, 0, 2 * Math.PI);
-        ctx.rect(GAME_WIDTH, 0, -GAME_WIDTH, GAME_HEIGHT);
-        ctx.fill();
-        ctx.closePath();
-        ctx.beginPath();
-        let grd = ctx.createRadialGradient(marioX, marioY, 50-this.darknessCounter, marioX, marioY, 100-this.darknessCounter*2);
-        grd.addColorStop(0, "transparent");
-        grd.addColorStop(1, "black");
-        if(this.darknessCounter === 50){ctx.fillStyle = "black"}
-        else{ctx.fillStyle = grd}
-        ctx.arc(marioX, marioY, 120, 0, 2 * Math.PI);
-        ctx.fill();
-        ctx.closePath();
-    }
-
-    gameOverScreen(ctx){
-        ctx.fillStyle = "black";
-        ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-        let image = IMAGES.game_over[0]
-        let newWidth = image.width * this.browserScaler;
-        let newHeight = image.height*this.browserScaler
-        ctx.drawImage(image, GAME_WIDTH / 2 - newWidth / 2, GAME_HEIGHT / 2 - newHeight / 2, newWidth, newHeight)
-        this.browserScaler += .004;
-    }
+    
 
     moveObjects(){
         for (let i = 0; i < this.allObjects().length; i++){
