@@ -1,6 +1,6 @@
 import Mario from "./mario"
 import Boo from "./boo"
-import {GAME_WIDTH, GAME_HEIGHT, SPAWN_RANGE, IMAGES, MAXGHOSTS} from "./constants"
+import {GAME_WIDTH, GAME_HEIGHT, SPAWN_RANGE, MAXGHOSTS, BOARD_WIDTH} from "./constants"
 import {checkInLight} from "./flashlight"
 import {drawDarkness, trueDarkness, gameOverScreen} from "./darkness"
 import {drawScore, drawFlashlightBar} from "./sidebar"
@@ -31,7 +31,7 @@ export default class Game {
     }
 
     booRandomPosition(){
-        let booX = Math.floor(Math.random() * (GAME_WIDTH-200));
+        let booX = Math.floor(Math.random() * (BOARD_WIDTH));
         let booY = Math.floor(Math.random() * GAME_HEIGHT);
         let booPos = [booX, booY]
         if ((this.mario.pos[0] >= (booX - SPAWN_RANGE) && this.mario.pos[0] <= (booX + SPAWN_RANGE)) ||
@@ -42,7 +42,7 @@ export default class Game {
     }
 
     draw(ctx){
-        ctx.clearRect(0, 0, GAME_WIDTH-200, GAME_HEIGHT);
+        ctx.clearRect(0, 0, BOARD_WIDTH, GAME_HEIGHT);
         ctx.fillStyle = "#888888";
         ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT)
         ctx.drawImage(this.mario.image(), this.mario.pos[0], this.mario.pos[1])
@@ -71,7 +71,7 @@ export default class Game {
     drawBorder(ctx){
         ctx.beginPath();
         ctx.fillStyle = "black";
-        ctx.fillRect(GAME_WIDTH - 200, 0, 200, GAME_HEIGHT)
+        ctx.fillRect(BOARD_WIDTH, 0, 200, GAME_HEIGHT)
         ctx.closePath();
     }
 
