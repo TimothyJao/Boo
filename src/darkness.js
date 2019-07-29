@@ -1,4 +1,4 @@
-import { GAME_WIDTH, GAME_HEIGHT, IMAGES } from "./constants"
+import { GAME_WIDTH, GAME_HEIGHT, IMAGES, BOARD_WIDTH } from "./constants"
 import { flashlight, flashlightShadow} from "./flashlight"
 
 export const drawDarkness = function(ctx, mario){
@@ -9,7 +9,7 @@ export const drawDarkness = function(ctx, mario){
         ctx.arc(marioX, marioY, 100, 0, 2 * Math.PI, true);
         ctx.moveTo(marioX, marioY)
         if(mario.flashLightOn) {lightRange = flashlight(ctx, false, mario)}
-        ctx.rect(GAME_WIDTH-200, GAME_HEIGHT, -GAME_WIDTH, -GAME_HEIGHT);
+        ctx.rect(BOARD_WIDTH, GAME_HEIGHT, -GAME_WIDTH, -GAME_HEIGHT);
         ctx.fillStyle = "black";
         ctx.fill();
         let grd = ctx.createRadialGradient(marioX, marioY, 50, marioX, marioY, 120);
