@@ -5,6 +5,7 @@ export const DIAG_SPEED = Math.sqrt(2*SPEED);
 export const MAXGHOSTS = 20;
 export const SPAWN_RANGE = 50;
 export const FLASHLIGHT_LENGTH = 200;
+export const BOARD_WIDTH = GAME_WIDTH - 200;
 
 export const IMAGES = {
     mario: {
