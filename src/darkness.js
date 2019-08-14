@@ -22,6 +22,7 @@ export const drawDarkness = function(ctx, mario){
         } else{
             ctx.arc(marioX, marioY, 100, 0, 2 * Math.PI, );
         }
+        
         ctx.fill();
         ctx.closePath();
         ctx.beginPath()
