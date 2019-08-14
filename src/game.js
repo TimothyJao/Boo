@@ -68,6 +68,7 @@ export default class Game {
         }
     }
 
+    
     drawBorder(ctx){
         ctx.beginPath();
         ctx.fillStyle = "black";
