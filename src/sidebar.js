@@ -25,6 +25,7 @@ export const drawFlashlightBar = function (ctx, mario){
         ctx.shadowBlur = 0;
         ctx.closePath();
 
+        
         ctx.beginPath();
         ctx.fillStyle = "white";
         ctx.fillRect(GAME_WIDTH - 177, 115, 150, 20)
